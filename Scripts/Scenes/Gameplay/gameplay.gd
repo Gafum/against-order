@@ -1,11 +1,11 @@
 extends Node2D
 
-const VILLAIN_Y := 444
+const VILLAIN_Y := 648
 const VILLAIN_ADD_X := 40
 
 #Villain List
 var villains := [
-	preload("res://Game/Characters/Villain/villain.tscn"),
+	preload("res://Scripts/Characters/Villain/villain.tscn"),
 ]
 
 var next_villain_x_position: float = 200.0
@@ -23,6 +23,7 @@ func spawn_villain():
 
 	if(villains[0]):
 		var new_villain:CharacterBody2D = villains[0].instantiate()
+		new_villain.name = "VILLAIN"+ str(Time.get_ticks_msec())
 		new_villain.global_position = Vector2($Player.global_position.x+next_villain_position, VILLAIN_Y)
 		new_villain.scale = Vector2(0.5, 0.5)
 		add_child(new_villain)

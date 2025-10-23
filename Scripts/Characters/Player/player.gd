@@ -20,7 +20,7 @@ func jump():
 func _input(event):
 	## Handle jump (Left side tap).
 	if (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed) :
-		if(event.position.x < get_viewport().size.x/2):
+		if(event.position.x < get_viewport().get_visible_rect().size.x/2):
 			jump()
 	
 	## Handle jump (Space).

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://do8f5msxpoylu"]
 
-[ext_resource type="Script" uid="uid://ci216kt2vvodp" path="res://Game/Environment/Objects/Floor/floor.gd" id="1_gyst3"]
+[ext_resource type="Script" uid="uid://ci216kt2vvodp" path="res://Scripts/Environment/Objects/Floor/floor.gd" id="1_gyst3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fly5v"]
 size = Vector2(83, 20)

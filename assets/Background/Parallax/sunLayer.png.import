@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bs13tmlineese"
-path="res://.godot/imported/Layer3.png-077f18d0e119028c0fee5f47c3f9ec8d.ctex"
+uid="uid://chml4wyxh102m"
+path="res://.godot/imported/sunLayer.png-c8773f2006db0e4fcff630beeed9ab4c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Background/Parallax/Layer3.png"
-dest_files=["res://.godot/imported/Layer3.png-077f18d0e119028c0fee5f47c3f9ec8d.ctex"]
+source_file="res://assets/Background/Parallax/sunLayer.png"
+dest_files=["res://.godot/imported/sunLayer.png-c8773f2006db0e4fcff630beeed9ab4c.ctex"]
 
 [params]
 

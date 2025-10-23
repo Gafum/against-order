@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c2o1mm0e8uchg"]
 
-[ext_resource type="Script" uid="uid://bccs8y2xh3jhd" path="res://Game/Characters/Player/player.gd" id="1_3mluk"]
+[ext_resource type="Script" uid="uid://bccs8y2xh3jhd" path="res://Scripts/Characters/Player/player.gd" id="1_3mluk"]
 [ext_resource type="Texture2D" uid="uid://ckdu8idbb4ydi" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1.png" id="2_3mluk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3mluk"]

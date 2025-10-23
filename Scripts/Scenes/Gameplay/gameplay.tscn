@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://uhggkkl8v0fn"]
+
+[ext_resource type="PackedScene" uid="uid://2virpwroqmfv" path="res://Scripts/Environment/MainParallaxBackgroung/main_parallax_background.tscn" id="1_5lja5"]
+[ext_resource type="Script" uid="uid://b1134d1r0wiwq" path="res://Scripts/Scenes/Gameplay/gameplay.gd" id="1_vf3l0"]
+[ext_resource type="PackedScene" uid="uid://do8f5msxpoylu" path="res://Scripts/Environment/Objects/Floor/floor.tscn" id="2_nr0xe"]
+[ext_resource type="PackedScene" uid="uid://c2o1mm0e8uchg" path="res://Scripts/Characters/Player/player.tscn" id="3_vf3l0"]
+
+[node name="Gameplay" type="Node2D"]
+script = ExtResource("1_vf3l0")
+
+[node name="MainParallaxBackground" parent="." instance=ExtResource("1_5lja5")]
+
+[node name="Player" parent="." instance=ExtResource("3_vf3l0")]
+position = Vector2(53, 648)
+scale = Vector2(0.5, 0.5)
+
+[node name="Floor" parent="." instance=ExtResource("2_nr0xe")]
+position = Vector2(55.999996, 684)
+scale = Vector2(18.079998, 3.6000001)
+follow_target_path = NodePath("../Player")
+
+[node name="Camera2D" type="Camera2D" parent="Floor"]
+position = Vector2(32.300888, -90)
