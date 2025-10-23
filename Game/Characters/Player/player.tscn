@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2o1mm0e8uchg"]
+
+[ext_resource type="Script" uid="uid://bccs8y2xh3jhd" path="res://Game/Characters/Player/player.gd" id="1_3mluk"]
+[ext_resource type="Texture2D" uid="uid://ckdu8idbb4ydi" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1.png" id="2_3mluk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3mluk"]
+size = Vector2(97, 226)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jesbo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3mluk")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_3mluk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, -113)
+shape = SubResource("RectangleShape2D_3mluk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(77, -113)
+sprite_frames = SubResource("SpriteFrames_jesbo")
+animation = &"Idle"

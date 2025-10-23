@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://do8f5msxpoylu"]
+
+[ext_resource type="Script" uid="uid://ci216kt2vvodp" path="res://Game/Environment/Objects/Floor/floor.gd" id="1_gyst3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fly5v"]
+size = Vector2(83, 20)
+
+[node name="Floor" type="StaticBody2D"]
+script = ExtResource("1_gyst3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(31.5, 0)
+shape = SubResource("RectangleShape2D_fly5v")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 73.0
+offset_bottom = 10.0
+color = Color(0.53, 0.53, 0.53, 1)
