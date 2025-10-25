@@ -11,7 +11,7 @@ script = ExtResource("1_vf3l0")
 [node name="MainParallaxBackground" parent="." instance=ExtResource("1_5lja5")]
 
 [node name="Player" parent="." instance=ExtResource("3_vf3l0")]
-position = Vector2(130, 648)
+position = Vector2(53, 648)
 scale = Vector2(0.5, 0.5)
 
 [node name="Floor" parent="." instance=ExtResource("2_nr0xe")]

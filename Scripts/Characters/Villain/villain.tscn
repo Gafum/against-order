@@ -31,5 +31,8 @@ sprite_frames = SubResource("SpriteFrames_x8ouv")
 animation = &"Idle"
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(0.99999994, -95.99999)
+scale = Vector2(8.046132, 1.4762126)
+rect = Rect2(-14.168297, -136.15924, 25.478079, 201.19052)
 
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
