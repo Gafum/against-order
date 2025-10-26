@@ -13,6 +13,7 @@ config_version=5
 config/name="Against Order"
 run/main_scene="uid://b2s7ltk2yd4dl"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+run/max_fps=60
 boot_splash/bg_color=Color(0.26863742, 0.66072106, 0.5134275, 1)
 boot_splash/size/viewport_height=500
 
@@ -22,13 +23,23 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
-window/vsync/vsync_mode=2
+window/vsync/vsync_mode=0
+
+[editor]
+
+movie_writer/disable_vsync=true
+
+[input]
+
+click={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+, null]
+}
 
 [physics]
 
+2d/run_on_separate_thread=true
+common/physics_ticks_per_second=120
 2d/default_gravity=2100.0
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+common/physics_interpolation=true

@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bqlvcbchc4gcr" path="res://assets/Background/Parallax/Layer6.png" id="7_pabhn"]
 
 [node name="MainParallaxBackground" type="ParallaxBackground"]
+auto_translate_mode = 2
 script = ExtResource("1_u2bj0")
 
 [node name="Layer0" type="ParallaxLayer" parent="."]

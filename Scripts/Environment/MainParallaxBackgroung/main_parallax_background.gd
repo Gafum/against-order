@@ -8,7 +8,7 @@ func _ready() -> void:
 	update_background_scale()
 	background_width = background_sprite.texture.get_width()
 	
-
+ 
 func _on_viewport_size_changed() -> void:      
 	update_background_scale()
 
