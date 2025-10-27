@@ -8,7 +8,9 @@ const MIN_SPEED := 760
 @onready var game_floor:StaticBody2D = $Floor
 
 const VILLAIN_LIST := [
-	preload("res://Scripts/Characters/Villain/villain.tscn"),
+	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Liquid/toxic_water.tscn"),
+	preload("res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.tscn"),
+	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Traps/trap1.tscn"),
 ]
 
 var speed := 1000.0
@@ -34,11 +36,13 @@ func spawn_villain(player_x: float):
 		return
 		
 	# set the next position of the villain
-	next_villain_x_position = int(player_x + speed + randf_range(-15, 340))
+	next_villain_x_position = int(player_x + speed + randi_range(-15, 340))
 	
-	if(VILLAIN_LIST[0]):
+	var new_villain_object = VILLAIN_LIST[randi_range(0, VILLAIN_LIST.size()-1)]
+	
+	if(new_villain_object):
 		# creating the new Villain
-		var new_villain:CharacterBody2D = VILLAIN_LIST[0].instantiate()
+		var new_villain:CharacterBody2D = new_villain_object.instantiate()
 		new_villain.name = "VILLAIN"+ str(Time.get_ticks_msec())
 		new_villain.global_position = Vector2(
 			int(get_viewport().get_visible_rect().size.x+player_x+speed),

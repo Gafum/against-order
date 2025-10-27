@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs5kqdaqi4842"]
+
+[ext_resource type="Script" uid="uid://tq5tcy0cxyqj" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tres.gd" id="1_enljr"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6eemx"]
+radius = 79.0
+height = 292.0
+
+[node name="BaseObstacle" type="CharacterBody2D"]
+input_pickable = true
+script = ExtResource("1_enljr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -146)
+shape = SubResource("CapsuleShape2D_6eemx")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(0.99999994, -95.99999)
+scale = Vector2(8.046132, 1.4762126)
+rect = Rect2(-10.066948, -132.77222, 20.009613, 197.8035)
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

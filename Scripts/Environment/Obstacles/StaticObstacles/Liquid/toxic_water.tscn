@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://douirkh8gylu7"]
+
+[ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_1qpid"]
+[ext_resource type="Texture2D" uid="uid://c15g5s7wlmmt5" path="res://assets/Obstacles/StaticObstacles/Liquid/Puddle.png" id="2_oudvk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i3sar"]
+size = Vector2(259, 44)
+
+[node name="ToxicWater" instance=ExtResource("1_1qpid")]
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(26.5, 9)
+shape = SubResource("RectangleShape2D_i3sar")
+
+[node name="VisibleOnScreenEnabler2D" parent="." index="1"]
+position = Vector2(5.0000005, -70.00001)
+rect = Rect2(-20.133896, 38.612328, 39.894943, 33.193047)
+
+[node name="Puddle" type="Sprite2D" parent="." index="2"]
+position = Vector2(0, 15)
+texture = ExtResource("2_oudvk")
