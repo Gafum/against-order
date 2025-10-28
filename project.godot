@@ -41,5 +41,5 @@ click={
 
 2d/run_on_separate_thread=true
 common/physics_ticks_per_second=120
-2d/default_gravity=2100.0
+2d/default_gravity=2550.0
 common/physics_interpolation=true

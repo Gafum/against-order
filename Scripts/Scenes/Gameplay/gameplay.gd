@@ -11,6 +11,7 @@ const VILLAIN_LIST := [
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Liquid/toxic_water.tscn"),
 	preload("res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.tscn"),
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Traps/trap1.tscn"),
+	preload("res://Scripts/Environment/Obstacles/StaticObstacles/FlyingObstacles/Drons/drone.tscn"),
 ]
 
 var speed := 1000.0
@@ -22,12 +23,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var player_x = player.global_position.x
-	var relative_camera_position = (get_viewport().size.x/3)
+	var relative_camera_position = get_viewport().size.x/10*3.2
 	camera.global_position.x = player_x + relative_camera_position
 	game_floor.global_position.x = player_x + relative_camera_position
 	if(speed>MIN_SPEED):
 		speed -= delta * 3
-	player.velocity.x = 1570 - speed
+	player.position.x += (1570 - speed)/100
 	spawn_villain(player_x)
 
 func spawn_villain(player_x: float):
@@ -48,5 +49,5 @@ func spawn_villain(player_x: float):
 			int(get_viewport().get_visible_rect().size.x+player_x+speed),
 			VILLAIN_Y
 		)
-		new_villain.scale = Vector2(0.5, 0.5)
+		new_villain.scale = Vector2(0.7, 0.7)
 		add_child(new_villain)

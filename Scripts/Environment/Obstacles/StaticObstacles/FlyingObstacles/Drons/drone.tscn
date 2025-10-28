@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhpqo5s7hati3"]
+
+[ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_jgj73"]
+[ext_resource type="Script" uid="uid://btpjh4gfvcow2" path="res://Scripts/Environment/Obstacles/StaticObstacles/FlyingObstacles/Drons/drone.gd" id="2_rnt7c"]
+[ext_resource type="Texture2D" uid="uid://c44b4xw24btc6" path="res://assets/Obstacles/StaticObstacles/FlyingObstacles/Drons/Drone1.png" id="3_w38uy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ydlvl"]
+size = Vector2(384, 127)
+
+[node name="Drone" instance=ExtResource("1_jgj73")]
+script = ExtResource("2_rnt7c")
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(2, -63.5)
+shape = SubResource("RectangleShape2D_ydlvl")
+
+[node name="VisibleOnScreenEnabler2D" parent="." index="1"]
+rect = Rect2(-23.738113, -20.999695, 47.724792, 86.030975)
+
+[node name="Drone1" type="Sprite2D" parent="." index="2"]
+position = Vector2(0, -61)
+texture = ExtResource("3_w38uy")
