@@ -9,6 +9,7 @@
 script = ExtResource("1_vf3l0")
 
 [node name="MainParallaxBackground" parent="." instance=ExtResource("1_5lja5")]
+scroll_ignore_camera_zoom = true
 
 [node name="Player" parent="." instance=ExtResource("3_vf3l0")]
 position = Vector2(130, 648)

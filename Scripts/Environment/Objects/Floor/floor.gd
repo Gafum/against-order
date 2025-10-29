@@ -13,3 +13,4 @@ func update_background_scale() -> void:
 	var viewport_width = get_viewport().get_visible_rect().size.x
 	var scale_factor = viewport_width / floor_width
 	self.scale.x = scale_factor
+	self.position.x = viewport_width/2

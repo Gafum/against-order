@@ -41,5 +41,9 @@ click={
 
 2d/run_on_separate_thread=true
 common/physics_ticks_per_second=120
-2d/default_gravity=2550.0
-common/physics_interpolation=true
+2d/default_gravity=3900.0
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
