@@ -11,10 +11,11 @@ const VILLAIN_LIST := [
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Liquid/toxic_water.tscn"),
 	preload("res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.tscn"),
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Traps/trap1.tscn"),
+	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/block.tscn"),
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/FlyingObstacles/Drons/drone.tscn"),
 ]
 
-var speed := 1000.0
+var speed := 760.0
 
 var next_villain_x_position: float = 1500.0
 
@@ -37,7 +38,7 @@ func spawn_villain(player_x: float):
 		return
 		
 	# set the next position of the villain
-	next_villain_x_position = int(player_x + speed + randi_range(-15, 340))
+	next_villain_x_position = int(player_x + speed + randi_range(-14, 10))
 	
 	var new_villain_object = VILLAIN_LIST[randi_range(0, VILLAIN_LIST.size()-1)]
 	

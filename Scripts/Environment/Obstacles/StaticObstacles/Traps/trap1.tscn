@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dvfxfiy2vxmax"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_43j4f"]
-[ext_resource type="Texture2D" uid="uid://bg8d1sri43qe1" path="res://assets/Obstacles/StaticObstacles/Traps/Trap1.png" id="2_l2v4e"]
+[ext_resource type="Texture2D" uid="uid://22wr0f0ih8px" path="res://assets/Obstacles/StaticObstacles/Traps/Trap1.png" id="2_l2v4e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0df7f"]
 size = Vector2(148, 86)

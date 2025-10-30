@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://clhvhwkgvtkm" path="res://Scripts/Environment/MainParallaxBackgroung/main_parallax_background.gd" id="1_u2bj0"]
 [ext_resource type="Texture2D" uid="uid://dmbddgraapwwi" path="res://assets/Background/Parallax/Layer2.png" id="2_l4wdl"]
 [ext_resource type="Texture2D" uid="uid://bsomyri6mpft7" path="res://assets/Background/Parallax/Layer3.png" id="4_gdkpv"]
-[ext_resource type="Texture2D" uid="uid://bpxqe8guqqbux" path="res://assets/Background/Parallax/Layer4.png" id="5_8h82n"]
-[ext_resource type="Texture2D" uid="uid://bi6pt0j48xx55" path="res://assets/Background/Parallax/Layer5.png" id="6_lilb8"]
-[ext_resource type="Texture2D" uid="uid://bqlvcbchc4gcr" path="res://assets/Background/Parallax/Layer6.png" id="7_pabhn"]
+[ext_resource type="Texture2D" uid="uid://c7mtqulmj3bwe" path="res://assets/Background/Parallax/Layer4.png" id="5_8h82n"]
+[ext_resource type="Texture2D" uid="uid://dsfxh48rkc08a" path="res://assets/Background/Parallax/Layer5.png" id="6_lilb8"]
+[ext_resource type="Texture2D" uid="uid://d3h1451qcu8eh" path="res://assets/Background/Parallax/Layer6.png" id="7_pabhn"]
 
 [node name="MainParallaxBackground" type="ParallaxBackground"]
 auto_translate_mode = 2

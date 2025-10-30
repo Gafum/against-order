@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7mtqulmj3bwe"
-path="res://.godot/imported/Layer4.png-56f48097f6cb6e4f6d33b15c8d978012.ctex"
+uid="uid://iwplunmcfd4d"
+path="res://.godot/imported/block.png-046ee0d4d87d7add7a1fc878fc71cc7c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Background/Parallax/Layer4.png"
-dest_files=["res://.godot/imported/Layer4.png-56f48097f6cb6e4f6d33b15c8d978012.ctex"]
+source_file="res://assets/Obstacles/StaticObstacles/Blocks/block.png"
+dest_files=["res://.godot/imported/block.png-046ee0d4d87d7add7a1fc878fc71cc7c.ctex"]
 
 [params]
 
