@@ -5,18 +5,20 @@
 [ext_resource type="Texture2D" uid="uid://c44b4xw24btc6" path="res://assets/Obstacles/StaticObstacles/FlyingObstacles/Drons/Drone1.png" id="3_w38uy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ydlvl"]
-size = Vector2(384, 127)
+size = Vector2(264, 86.75)
 
 [node name="Drone" instance=ExtResource("1_jgj73")]
 script = ExtResource("2_rnt7c")
 
 [node name="CollisionShape2D" parent="." index="0"]
-position = Vector2(2, -63.5)
+position = Vector2(0, -43.625)
 shape = SubResource("RectangleShape2D_ydlvl")
 
 [node name="VisibleOnScreenEnabler2D" parent="." index="1"]
-rect = Rect2(-23.738113, -20.999695, 47.724792, 86.030975)
+position = Vector2(-3.9999998, -67.00001)
+rect = Rect2(-16.032547, -13.548176, 34.426476, 58.639988)
 
 [node name="Drone1" type="Sprite2D" parent="." index="2"]
-position = Vector2(0, -61)
+position = Vector2(0, -42.999996)
+scale = Vector2(0.6885246, 0.68852466)
 texture = ExtResource("3_w38uy")

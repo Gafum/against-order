@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://tq5tcy0cxyqj" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tres.gd" id="1_enljr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6eemx"]
-radius = 79.0
-height = 292.0
+radius = 98.86714
+height = 291.0891
 
 [node name="BaseObstacle" type="CharacterBody2D"]
 input_pickable = true

@@ -1,22 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://cm4eqq2scuw0i"]
+[gd_scene load_steps=5 format=3 uid="uid://cm4eqq2scuw0i"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_mbhnw"]
 [ext_resource type="Texture2D" uid="uid://iwplunmcfd4d" path="res://assets/Obstacles/StaticObstacles/Blocks/block.png" id="2_ggnkp"]
+[ext_resource type="Script" uid="uid://lpscm1vplkuc" path="res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/StandartBlock/block.gd" id="2_ggo33"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ggo33"]
 size = Vector2(189, 189)
 
 [node name="Block" instance=ExtResource("1_mbhnw")]
+script = ExtResource("2_ggo33")
 
-[node name="Block" type="Sprite2D" parent="." index="0"]
-position = Vector2(-103, -198)
+[node name="Sprite" type="Sprite2D" parent="." index="0"]
+position = Vector2(-93, -189)
 texture = ExtResource("2_ggnkp")
 centered = false
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0.5, -94.5)
+position = Vector2(0.5, -95.5)
 shape = SubResource("RectangleShape2D_ggo33")
 
 [node name="VisibleOnScreenEnabler2D" parent="." index="2"]
-position = Vector2(-13, 6)
+position = Vector2(-13, 5.0000005)
 rect = Rect2(-10.066948, -132.09479, 23.98668, 128.03033)

@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2s7ltk2yd4dl"]
+[gd_scene load_steps=6 format=3 uid="uid://b2s7ltk2yd4dl"]
 
 [ext_resource type="PackedScene" uid="uid://2virpwroqmfv" path="res://Scripts/Environment/MainParallaxBackgroung/main_parallax_background.tscn" id="1_6lqpt"]
+[ext_resource type="Script" uid="uid://b5wstbgvkjasu" path="res://Scripts/Scenes/Start menu/start_menu.gd" id="1_xx3y7"]
 [ext_resource type="Script" uid="uid://lux33h8y58bn" path="res://Scripts/Environment/MainParallaxBackgroung/start_menu_parallax_bg.gd" id="2_6lqpt"]
 [ext_resource type="Script" uid="uid://pkwt8v0rxqrt" path="res://Scripts/Scenes/Start menu/play.gd" id="2_cgf0a"]
 [ext_resource type="Script" uid="uid://bp0nsx5h3b1yx" path="res://Scripts/Scenes/Start menu/quit.gd" id="3_4imxk"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_xx3y7")
 
 [node name="MainParallaxBackground" parent="." instance=ExtResource("1_6lqpt")]
 script = ExtResource("2_6lqpt")

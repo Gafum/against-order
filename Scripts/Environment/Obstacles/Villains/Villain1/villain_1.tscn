@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqtmybgq1kplg"]
+[gd_scene load_steps=6 format=3 uid="uid://bqtmybgq1kplg"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_gcifs"]
 [ext_resource type="Script" uid="uid://cclxtda3mcjpi" path="res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.gd" id="2_jqeu3"]
@@ -20,19 +20,23 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_knfil"]
+size = Vector2(130.793, 292.07922)
+
 [node name="Villain1" instance=ExtResource("1_gcifs")]
 script = ExtResource("2_jqeu3")
 
-[node name="CollisionShape2D" parent="." index="0"]
-position = Vector2(0, -147)
-scale = Vector2(0.971, 1.01)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CollisionShape2D" index="0"]
-position = Vector2(-117.40473, -146.53467)
-scale = Vector2(1.0298661, 0.990099)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(-114, -295)
+scale = Vector2(0.96129, 0.9999)
 sprite_frames = SubResource("SpriteFrames_a6j6c")
 animation = &"Idle"
 centered = false
 
-[node name="VisibleOnScreenEnabler2D" parent="." index="1"]
-rect = Rect2(-10.066948, -135.48184, 21.252447, 200.51312)
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(8.5, -147.5)
+scale = Vector2(0.971, 1.01)
+shape = SubResource("RectangleShape2D_knfil")
+
+[node name="VisibleOnScreenEnabler2D" parent="." index="2"]
+rect = Rect2(-10.066948, -135.48184, 20.382463, 200.51312)
