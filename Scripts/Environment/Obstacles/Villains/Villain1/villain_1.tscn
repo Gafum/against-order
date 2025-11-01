@@ -1,8 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://bqtmybgq1kplg"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_gcifs"]
-[ext_resource type="Script" uid="uid://cclxtda3mcjpi" path="res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.gd" id="2_jqeu3"]
 [ext_resource type="Texture2D" uid="uid://b72mot4b071dm" path="res://assets/Characters/Villains/Villain1/Villain1.png" id="2_knfil"]
+
+[sub_resource type="GDScript" id="GDScript_gcifs"]
+script/source = "extends \"res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tres.gd\"
+"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a6j6c"]
 animations = [{
@@ -24,7 +27,8 @@ animations = [{
 size = Vector2(130.793, 292.07922)
 
 [node name="Villain1" instance=ExtResource("1_gcifs")]
-script = ExtResource("2_jqeu3")
+script = SubResource("GDScript_gcifs")
+is_destroyable = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(-114, -295)

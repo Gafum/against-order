@@ -1,7 +1,7 @@
 extends Node2D
 
 const VILLAIN_Y := 648
-const MIN_SPEED := 750
+const MAX_SPEED := 1400
 
 @onready var player:CharacterBody2D = $Player
 @onready var camera:Camera2D = $Camera2D
@@ -16,7 +16,7 @@ const VILLAIN_LIST := [
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/Barrel/barrel.tscn")
 ]
 
-var speed := 770.0
+var speed := 1000.0
 
 var next_villain_x_position: float = 1500.0
 
@@ -24,13 +24,13 @@ func _ready() -> void:
 	next_villain_x_position = player.global_position.x
 
 func _physics_process(delta: float) -> void:
-	player.global_position.x += (1570 - speed)/100
+	player.velocity.x = speed * delta * 100
 	var player_x = player.global_position.x
 	var relative_camera_position = get_viewport().size.x/10*3.2
 	camera.global_position.x = player_x + relative_camera_position
 	game_floor.global_position.x = player_x + relative_camera_position
-	if(speed>MIN_SPEED):
-		speed -= delta * 3
+	if(speed<MAX_SPEED):
+		speed += delta * 3
 	spawn_villain(player_x)
 
 func spawn_villain(player_x: float):

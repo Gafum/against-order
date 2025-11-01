@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2o1mm0e8uchg"]
+[gd_scene load_steps=6 format=3 uid="uid://c2o1mm0e8uchg"]
 
 [ext_resource type="Script" uid="uid://bccs8y2xh3jhd" path="res://Scripts/Characters/Player/player.gd" id="1_3mluk"]
-[ext_resource type="Texture2D" uid="uid://ckdu8idbb4ydi" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1.png" id="2_3mluk"]
+[ext_resource type="Texture2D" uid="uid://la6n7xwft520" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1.png" id="2_3mluk"]
+[ext_resource type="Texture2D" uid="uid://qrj2deww3u3a" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1Hands.png" id="3_i1d7s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3mluk"]
-size = Vector2(97, 226)
+size = Vector2(88, 225)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jesbo"]
 animations = [{
@@ -21,10 +22,18 @@ animations = [{
 script = ExtResource("1_3mluk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5, -113)
+position = Vector2(0, -113.5)
 shape = SubResource("RectangleShape2D_3mluk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(77, -113)
+position = Vector2(-6, -114)
 sprite_frames = SubResource("SpriteFrames_jesbo")
 animation = &"Idle"
+
+[node name="Hands" type="Sprite2D" parent="AnimatedSprite2D"]
+position = Vector2(-38, -52)
+texture = ExtResource("3_i1d7s")
+offset = Vector2(120, 4)
+
+[node name="BulletMarker" type="Marker2D" parent="AnimatedSprite2D/Hands"]
+position = Vector2(255, -10)
