@@ -9,9 +9,6 @@ var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bul
 
 var move_speed := 770.0
 
-func _ready() -> void:
-    print("Player script loaded.")
-
 func _physics_process(delta: float) -> void:
 	var mouse_pos = get_viewport().get_camera_2d().get_global_mouse_position()
 	var dir = (mouse_pos - hands_sprite.global_position).normalized()
