@@ -1,45 +1,41 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct8l4kp1r2rqc"]
+[gd_scene load_steps=7 format=3 uid="uid://ct8l4kp1r2rqc"]
 
-[sub_resource type="Gradient" id="Gradient_v4j16"]
-colors = PackedColorArray(1, 1, 1, 1, 0.40994078, 0.9999998, 0.81796944, 1)
+[ext_resource type="Script" uid="uid://do3oj5fnnp417" path="res://Scripts/Effects/Explosion/explosion.gd" id="1_qbvmf"]
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_qbvmf"]
-gradient = SubResource("Gradient_v4j16")
+[sub_resource type="Curve" id="Curve_v4j16"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 84.26967), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qbvmf"]
+curve = SubResource("Curve_v4j16")
 
 [sub_resource type="Curve" id="Curve_fble6"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.9924243, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.1685394), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_me7ml"]
 curve = SubResource("Curve_fble6")
 
-[sub_resource type="Curve" id="Curve_h23fa"]
-_limits = [0.0, 3.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.9924243, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_tyfcs"]
-curve = SubResource("Curve_h23fa")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_peddy"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h23fa"]
 particle_flag_disable_z = true
-spread = 73.966
-initial_velocity_min = 120.0
-initial_velocity_max = 140.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 130.0
+initial_velocity_max = 200.0
 gravity = Vector3(0, 0, 0)
+damping_curve = SubResource("CurveTexture_qbvmf")
+scale_min = 8.0
+scale_max = 15.0
 scale_curve = SubResource("CurveTexture_me7ml")
-scale_over_velocity_curve = SubResource("CurveTexture_tyfcs")
-color_ramp = SubResource("GradientTexture1D_qbvmf")
+color = Color(0, 0, 0, 1)
 
-[node name="Explosion" type="GPUParticles2D"]
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_qbvmf")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 25
-lifetime = 0.3
-one_shot = true
-process_material = SubResource("ParticleProcessMaterial_peddy")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 3.0
-offset_bottom = 3.0
+amount = 20
+lifetime = 0.4
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_h23fa")
