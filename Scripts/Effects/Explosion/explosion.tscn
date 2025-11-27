@@ -1,6 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://ct8l4kp1r2rqc"]
+[gd_scene load_steps=9 format=3 uid="uid://ct8l4kp1r2rqc"]
 
 [ext_resource type="Script" uid="uid://do3oj5fnnp417" path="res://Scripts/Effects/Explosion/explosion.gd" id="1_qbvmf"]
+
+[sub_resource type="Gradient" id="Gradient_qbvmf"]
+offsets = PackedFloat32Array(0.17924528, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fble6"]
+gradient = SubResource("Gradient_qbvmf")
 
 [sub_resource type="Curve" id="Curve_v4j16"]
 _limits = [0.0, 100.0, 0.0, 1.0]
@@ -28,7 +34,7 @@ damping_curve = SubResource("CurveTexture_qbvmf")
 scale_min = 8.0
 scale_max = 15.0
 scale_curve = SubResource("CurveTexture_me7ml")
-color = Color(0, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_fble6")
 
 [node name="Explosion" type="Node2D"]
 script = ExtResource("1_qbvmf")
