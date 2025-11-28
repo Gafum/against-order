@@ -1,7 +1,6 @@
 extends Area2D
 
 @export var speed: float = 1200.0
-@export var lifetime: float = 1.8
 @export var velocity_offset: Vector2 = Vector2.ZERO
 
 var direction: Vector2 = Vector2.ZERO
@@ -9,12 +8,10 @@ var is_active: bool = true
 
 var explosion_scene := preload("res://Scripts/Effects/Explosion/explosion.tscn")
 
-
 func _ready() -> void:
-	await get_tree().create_timer(lifetime).timeout
-	if is_active:
-		queue_free()
-
+	rotation = direction.angle()
+	name = "Bullet" + str(Time.get_ticks_msec())
+	
 
 func _physics_process(delta: float) -> void:
 	if not is_active:
@@ -47,3 +44,8 @@ func _spawn_explosion() -> void:
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	get_tree().current_scene.add_child(explosion)
+
+
+func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
+	if is_active:
+		queue_free()

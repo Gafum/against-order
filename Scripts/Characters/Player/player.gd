@@ -48,10 +48,11 @@ func shoot():
 		return
 
 	var bullet = bullet_scene.instantiate()
-	get_tree().current_scene.add_child(bullet)
 
 	bullet.global_position = bullet_marker.global_position
 
 	bullet.direction = current_shoot_direction.normalized()
 
 	bullet.velocity_offset.x = self.velocity.x
+
+	get_tree().current_scene.add_child(bullet)
