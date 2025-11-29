@@ -3,7 +3,7 @@ extends Area2D
 @export var speed: float = 1200.0
 @export var velocity_offset: Vector2 = Vector2.ZERO
 
-var direction: Vector2 = Vector2.ZERO
+var direction: Vector2 = Vector2.ZERO   
 var is_active: bool = true
 
 var explosion_scene := preload("res://Scripts/Effects/Explosion/explosion.tscn")

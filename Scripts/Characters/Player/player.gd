@@ -1,5 +1,10 @@
 extends CharacterBody2D
 
+
+func _ready() -> void:
+	add_to_group("Player")
+
+
 const JUMP_VELOCITY = -1200.0
 
 var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bullet/bullet.tscn")
