@@ -10,7 +10,7 @@ var explosion_scene := preload("res://Scripts/Effects/Explosion/explosion.tscn")
 
 func _ready() -> void:
 	rotation = direction.angle()
-	name = "Bullet" + str(Time.get_ticks_msec())
+	name = "Bullet" + str(Time.get_ticks_msec()) 
 	
 
 func _physics_process(delta: float) -> void:

@@ -9,6 +9,8 @@ size = Vector2(264, 86.75)
 
 [node name="Drone" instance=ExtResource("1_jgj73")]
 script = ExtResource("2_rnt7c")
+speed = 200.0
+drop_cooldown = 2.0
 is_destroyable = true
 
 [node name="Drone1" type="Sprite2D" parent="." index="0"]
