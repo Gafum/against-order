@@ -3,9 +3,9 @@ extends Node2D
 const VILLAIN_Y := 648
 const MAX_SPEED := 1400
 
-@onready var player:CharacterBody2D = $Player
-@onready var camera:Camera2D = $Camera2D
-@onready var game_floor:StaticBody2D = $Floor
+@onready var player: CharacterBody2D = $Player
+@onready var camera: Camera2D = $Camera2D
+@onready var game_floor: StaticBody2D = $Floor
 
 const VILLAIN_LIST := [
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Liquid/toxic_water.tscn"),
@@ -17,38 +17,55 @@ const VILLAIN_LIST := [
 ]
 
 var speed := 1000.0
+var score: float = 0.0
+var score_label: Label
 
 var next_villain_x_position: float = 1500.0
 
 func _ready() -> void:
 	next_villain_x_position = player.global_position.x
+	
+	# Create UI Layer
+	var canvas_layer = CanvasLayer.new()
+	add_child(canvas_layer)
+	
+	score_label = Label.new()
+	score_label.position = Vector2(20, 20)
+	score_label.modulate = Color(1, 1, 1)
+	score_label.add_theme_font_size_override("font_size", 32)
+	canvas_layer.add_child(score_label)
 
 func _physics_process(delta: float) -> void:
 	player.velocity.x = speed * delta * 100
 	var player_x = player.global_position.x
-	var relative_camera_position = get_viewport().size.x/10*3.2
+	
+	# Update Score
+	score += speed * delta * 0.01 # Score based on speed/distance
+	score_label.text = "Score: %d" % int(score)
+	
+	var relative_camera_position = get_viewport().size.x / 10 * 3.2
 	camera.global_position.x = player_x + relative_camera_position
 	game_floor.global_position.x = player_x + relative_camera_position
-	if(speed<MAX_SPEED):
-		speed += delta * 3
+	if (speed < MAX_SPEED):
+		speed += delta * 5 # Increased acceleration slightly as requested ("just increase speed little by little")
 	spawn_villain(player_x)
 
 func spawn_villain(player_x: float):
 	# check if it is enogth space
-	if(player_x<next_villain_x_position):
+	if (player_x < next_villain_x_position):
 		return
 		
 	# set the next position of the villain
 	next_villain_x_position = int(player_x + speed + randi_range(0, 200))
 	
-	var new_villain_object = VILLAIN_LIST[randi_range(0, VILLAIN_LIST.size()-1)]
+	var new_villain_object = VILLAIN_LIST[randi_range(0, VILLAIN_LIST.size() - 1)]
 	
-	if(new_villain_object):
+	if (new_villain_object):
 		# creating the new Villain
-		var new_villain:CharacterBody2D = new_villain_object.instantiate()
-		new_villain.name = "VILLAIN"+ str(Time.get_ticks_msec())
+		var new_villain: CharacterBody2D = new_villain_object.instantiate()
+		new_villain.name = "VILLAIN" + str(Time.get_ticks_msec())
 		new_villain.global_position = Vector2(
-			int(get_viewport().get_visible_rect().size.x+player_x+speed),
+			int(get_viewport().get_visible_rect().size.x + player_x + speed),
 			VILLAIN_Y
 		)
 		new_villain.scale = Vector2(0.7, 0.7)

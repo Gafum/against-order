@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://box_explosion_unique_id"]
+
+[ext_resource type="Script" path="res://Scripts/Effects/BoxExplosion/box_explosion.gd" id="1_script"]
+
+[node name="BoxExplosion" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.8, 0.2, 0.2, 1)

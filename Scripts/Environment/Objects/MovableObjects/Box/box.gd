@@ -15,17 +15,12 @@ func _on_body_entered(body: Node) -> void:
 	elif body is TileMap or body.name == "Floor":
 		explode()
 
+const EXPLOSION_SCENE = preload("res://Scripts/Effects/BoxExplosion/box_explosion.tscn")
+
 func explode() -> void:
-	# Disable collision and hide sprite
-	$CollisionShape2D.set_deferred("disabled", true)
-	$ColorRect.visible = false
-	set_physics_process(false)
-	freeze = true # Stop physics
-	
-	# Play particles if they exist
-	if has_node("CPUParticles2D"):
-		$CPUParticles2D.emitting = true
-		await get_tree().create_timer(1.0).timeout # Wait for particles to finish
+	# Spawn explosion effect
+	var explosion = EXPLOSION_SCENE.instantiate()
+	explosion.global_position = global_position
+	get_tree().current_scene.add_child(explosion)
 	
 	queue_free()
-
