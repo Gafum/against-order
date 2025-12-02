@@ -18,9 +18,9 @@ const VILLAIN_LIST := [
 
 var speed := 1000.0
 var score: float = 0.0
-var score_label: Label
+@onready var score_label = $CanvasLayer/AspectRatioContainer/MarginContainer/Label
 
-var next_villain_x_position: float = 1500.0
+var next_villain_x_position: float = 1500.0 
 
 func _ready() -> void:
 	next_villain_x_position = player.global_position.x
@@ -28,19 +28,13 @@ func _ready() -> void:
 	# Create UI Layer
 	var canvas_layer = CanvasLayer.new()
 	add_child(canvas_layer)
-	
-	score_label = Label.new()
-	score_label.position = Vector2(20, 20)
-	score_label.modulate = Color(1, 1, 1)
-	score_label.add_theme_font_size_override("font_size", 32)
-	canvas_layer.add_child(score_label)
 
 func _physics_process(delta: float) -> void:
 	player.velocity.x = speed * delta * 100
 	var player_x = player.global_position.x
 	
 	# Update Score
-	score += speed * delta * 0.01 # Score based on speed/distance
+	score += speed * delta * 0.01
 	score_label.text = "Score: %d" % int(score)
 	
 	var relative_camera_position = get_viewport().size.x / 10 * 3.2
