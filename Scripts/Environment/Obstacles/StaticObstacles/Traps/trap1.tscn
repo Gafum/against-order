@@ -1,12 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvfxfiy2vxmax"]
+[gd_scene load_steps=7 format=3 uid="uid://dvfxfiy2vxmax"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_43j4f"]
 [ext_resource type="Texture2D" uid="uid://22wr0f0ih8px" path="res://assets/Obstacles/StaticObstacles/Traps/Trap1.png" id="2_l2v4e"]
+[ext_resource type="Script" uid="uid://cft0c8477bo53" path="res://Scripts/Environment/Obstacles/StaticObstacles/Traps/trap_1.gd" id="2_mxl0n"]
+[ext_resource type="Texture2D" uid="uid://bvi0eyvh0qy1m" path="res://assets/Obstacles/StaticObstacles/Traps/mine.png" id="4_adkc2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0df7f"]
 size = Vector2(148, 86)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_pk1e2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_l2v4e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_adkc2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Trap1" instance=ExtResource("1_43j4f")]
+script = ExtResource("2_mxl0n")
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2(0, -43)
@@ -15,6 +32,7 @@ shape = SubResource("RectangleShape2D_0df7f")
 [node name="VisibleOnScreenEnabler2D" parent="." index="1"]
 rect = Rect2(-16.90253, 8.128902, 33.68078, 56.902378)
 
-[node name="Trap1" type="Sprite2D" parent="." index="2"]
-position = Vector2(0, -41)
-texture = ExtResource("2_l2v4e")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="2"]
+position = Vector2(0, 1)
+sprite_frames = SubResource("SpriteFrames_pk1e2")
+offset = Vector2(1, -41)
