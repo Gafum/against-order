@@ -1,19 +1,60 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbq562e2cvlxh"]
+[gd_scene load_steps=9 format=3 uid="uid://bbq562e2cvlxh"]
 
 [ext_resource type="Script" uid="uid://jafs3rbrvbay" path="res://Scripts/Environment/Objects/MovableObjects/Bullet/bullet.gd" id="1_5g7pf"]
+[ext_resource type="Texture2D" uid="uid://qganrvf2hkuq" path="res://assets/Attacks/Banana.png" id="2_kj32c"]
+[ext_resource type="Texture2D" uid="uid://d06wdk5va2euk" path="res://assets/Attacks/Cup.png" id="3_42gkj"]
+[ext_resource type="Texture2D" uid="uid://b6xgerrdnl2yi" path="res://assets/Attacks/Apple.png" id="4_d2dbu"]
+[ext_resource type="Texture2D" uid="uid://bt4b8ccif2pc5" path="res://assets/Attacks/donat.png" id="5_rh416"]
+[ext_resource type="Texture2D" uid="uid://bwpyejvwu6yrt" path="res://assets/Attacks/Hotdog.png" id="6_26e57"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0axs"]
 size = Vector2(34, 20)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_a5ts0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kj32c")
+}],
+"loop": true,
+"name": &"banana",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_42gkj")
+}],
+"loop": true,
+"name": &"cup",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_d2dbu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_rh416")
+}],
+"loop": true,
+"name": &"donat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_26e57")
+}],
+"loop": true,
+"name": &"hotdog",
+"speed": 5.0
+}]
+
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_5g7pf")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -17.0
-offset_top = -10.0
-offset_right = 17.0
-offset_bottom = 10.0
-color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_n0axs")
@@ -22,6 +63,10 @@ shape = SubResource("RectangleShape2D_n0axs")
 position = Vector2(12, -1.0000005)
 scale = Vector2(8.046132, 1.4762126)
 rect = Rect2(-6.8355823, -20.999683, 10.688365, 42.676777)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.14876041, 0.14876033)
+sprite_frames = SubResource("SpriteFrames_a5ts0")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
