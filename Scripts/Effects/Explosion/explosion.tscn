@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://do3oj5fnnp417" path="res://Scripts/Effects/Explosion/explosion.gd" id="1_qbvmf"]
 
 [sub_resource type="Gradient" id="Gradient_qbvmf"]
-offsets = PackedFloat32Array(0.17924528, 1)
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fble6"]
 gradient = SubResource("Gradient_qbvmf")
