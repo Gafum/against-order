@@ -9,15 +9,15 @@ const JUMP_VELOCITY = -1200.0
 
 var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bullet/bullet.tscn")
 
-@onready var bullet_marker:Marker2D = $AnimatedSprite2D/Hands/BulletMarker
-@onready var hands_sprite:Sprite2D = $AnimatedSprite2D/Hands
+@onready var bullet_marker: Marker2D = $AnimatedSprite2D/Hands/BulletMarker
+@onready var hands_sprite: Sprite2D = $AnimatedSprite2D/Hands
 
 var move_speed := 770.0
 
-const MIN_ANGLE = deg_to_rad(-65)  # up
+const MIN_ANGLE = deg_to_rad(-65) # up
 const MAX_ANGLE = deg_to_rad(30) # down
 
-var current_shoot_direction: Vector2 = Vector2.RIGHT 
+var current_shoot_direction: Vector2 = Vector2.RIGHT
 
 
 func _physics_process(delta: float) -> void:
@@ -59,5 +59,6 @@ func shoot():
 	bullet.direction = current_shoot_direction.normalized()
 
 	bullet.velocity_offset.x = self.velocity.x
+	bullet.z_index = -1
 
 	get_tree().current_scene.add_child(bullet)
