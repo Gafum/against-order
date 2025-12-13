@@ -54,9 +54,8 @@ func shoot():
 
 	var bullet = bullet_scene.instantiate()
 
-	bullet.global_position = bullet_marker.global_position
-
 	bullet.direction = current_shoot_direction.normalized()
+	bullet.global_position = bullet_marker.global_position + (bullet.direction * 40)
 
 	bullet.velocity_offset.x = self.velocity.x
 	bullet.z_index = -1
