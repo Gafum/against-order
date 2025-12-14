@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	add_to_group("Player")
+	default_hand_pos = hands_sprite.position
 
 
 const JUMP_VELOCITY = -1200.0
@@ -18,6 +19,8 @@ const MIN_ANGLE = deg_to_rad(-65) # up
 const MAX_ANGLE = deg_to_rad(30) # down
 
 var current_shoot_direction: Vector2 = Vector2.RIGHT
+
+var default_hand_pos: Vector2
 
 
 func _physics_process(delta: float) -> void:
@@ -39,6 +42,7 @@ func _update_hand_rotation(delta: float) -> void:
 	target_angle = clamp(target_angle, MIN_ANGLE, MAX_ANGLE)
 
 	hands_sprite.rotation = lerp_angle(hands_sprite.rotation, target_angle, delta * 12)
+	hands_sprite.position = hands_sprite.position.lerp(default_hand_pos, delta * 5)
 
 	current_shoot_direction = Vector2.from_angle(target_angle)
 
@@ -59,5 +63,8 @@ func shoot():
 
 	bullet.velocity_offset.x = self.velocity.x
 	bullet.z_index = -1
+
+	hands_sprite.rotation -= 0.2
+	hands_sprite.position -= Vector2.RIGHT.rotated(hands_sprite.rotation) * 10.0
 
 	get_tree().current_scene.add_child(bullet)
