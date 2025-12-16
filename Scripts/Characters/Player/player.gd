@@ -42,7 +42,7 @@ func _update_hand_rotation(delta: float) -> void:
 	target_angle = clamp(target_angle, MIN_ANGLE, MAX_ANGLE)
 
 	hands_sprite.rotation = lerp_angle(hands_sprite.rotation, target_angle, delta * 12)
-	hands_sprite.scale = hands_sprite.scale.lerp(default_hand_scale, delta * 5)
+	hands_sprite.scale = hands_sprite.scale.lerp(default_hand_scale, delta * 4)
 
 	current_shoot_direction = Vector2.from_angle(target_angle)
 
@@ -65,6 +65,6 @@ func shoot():
 	bullet.z_index = -1
 
 	hands_sprite.rotation -= 0.2
-	hands_sprite.scale.x -= 0.4
+	hands_sprite.scale.x = 0.85
 
 	get_tree().current_scene.add_child(bullet)
