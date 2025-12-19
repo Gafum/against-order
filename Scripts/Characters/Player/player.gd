@@ -12,6 +12,8 @@ var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bul
 
 @onready var bullet_marker: Marker2D = $AnimatedSprite2D/Hands/BulletMarker
 @onready var hands_sprite: Sprite2D = $AnimatedSprite2D/Hands
+@onready var left_schoulder_marker: Marker2D = $AnimatedSprite2D/LeftSchoulderMarker
+@onready var left_hand_marker: Marker2D = $AnimatedSprite2D/Hands/LeftHandMarker
 
 var move_speed := 770.0
 
@@ -42,9 +44,11 @@ func _update_hand_rotation(delta: float) -> void:
 	target_angle = clamp(target_angle, MIN_ANGLE, MAX_ANGLE)
 
 	hands_sprite.rotation = lerp_angle(hands_sprite.rotation, target_angle, delta * 12)
-	hands_sprite.scale = hands_sprite.scale.lerp(default_hand_scale, delta * 4)
+	hands_sprite.scale = hands_sprite.scale.lerp(default_hand_scale, delta * 3)
 
 	current_shoot_direction = Vector2.from_angle(target_angle)
+	
+	queue_redraw()
 
 
 func _input(event):
@@ -68,3 +72,10 @@ func shoot():
 	hands_sprite.scale.x = 0.85
 
 	get_tree().current_scene.add_child(bullet)
+
+
+func _draw() -> void:
+	if left_schoulder_marker and left_hand_marker:
+		var start = to_local(left_schoulder_marker.global_position)
+		var end = to_local(left_hand_marker.global_position)
+		draw_line(start, end, Color("#533838"), 20.0)

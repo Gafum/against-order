@@ -34,7 +34,6 @@ animation = &"Idle"
 position = Vector2(45, -49)
 
 [node name="Hands" type="Sprite2D" parent="AnimatedSprite2D"]
-visible = false
 position = Vector2(-38, -52)
 texture = ExtResource("3_i1d7s")
 offset = Vector2(120, 4)
