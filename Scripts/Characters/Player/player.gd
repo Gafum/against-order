@@ -69,7 +69,7 @@ func shoot():
 	bullet.z_index = -1
 
 	hands_sprite.rotation -= 0.2
-	hands_sprite.scale.x = 0.85
+	hands_sprite.scale.x = 0.87
 
 	get_tree().current_scene.add_child(bullet)
 
@@ -78,4 +78,4 @@ func _draw() -> void:
 	if left_schoulder_marker and left_hand_marker:
 		var start = to_local(left_schoulder_marker.global_position)
 		var end = to_local(left_hand_marker.global_position)
-		draw_line(start, end, Color("#533838"), 20.0)
+		draw_line(start, end, Color("#533838"), 26.0)

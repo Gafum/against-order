@@ -31,15 +31,15 @@ sprite_frames = SubResource("SpriteFrames_jesbo")
 animation = &"Idle"
 
 [node name="LeftSchoulderMarker" type="Marker2D" parent="AnimatedSprite2D"]
-position = Vector2(45, -49)
+position = Vector2(44, -49)
 
 [node name="Hands" type="Sprite2D" parent="AnimatedSprite2D"]
-position = Vector2(-38, -52)
+position = Vector2(-38, -46)
 texture = ExtResource("3_i1d7s")
-offset = Vector2(120, 4)
+offset = Vector2(120, -2)
 
 [node name="BulletMarker" type="Marker2D" parent="AnimatedSprite2D/Hands"]
-position = Vector2(255, -10)
+position = Vector2(255, -16)
 
 [node name="LeftHandMarker" type="Marker2D" parent="AnimatedSprite2D/Hands"]
-position = Vector2(173, 22)
+position = Vector2(174, 16)
