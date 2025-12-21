@@ -78,4 +78,10 @@ func _draw() -> void:
 	if left_schoulder_marker and left_hand_marker:
 		var start = to_local(left_schoulder_marker.global_position)
 		var end = to_local(left_hand_marker.global_position)
-		draw_line(start, end, Color("#533838"), 26.0)
+		var color = Color("#533838")
+		var width = 20.0
+		var radius = width / 2.0
+		
+		draw_line(start, end, color, width)
+		draw_circle(start, radius, color)
+		draw_circle(end, radius, color)
