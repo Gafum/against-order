@@ -9,6 +9,7 @@ func _ready() -> void:
 const JUMP_VELOCITY = -1200.0
 
 var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bullet/bullet.tscn")
+var dust_scene = preload("res://Scripts/Effects/Dust/dust.tscn")
 
 @onready var bullet_marker: Marker2D = $AnimatedSprite2D/Hands/BulletMarker
 @onready var hands_sprite: Sprite2D = $AnimatedSprite2D/Hands
@@ -23,6 +24,7 @@ const MAX_ANGLE = deg_to_rad(30) # down
 var current_shoot_direction: Vector2 = Vector2.RIGHT
 
 var default_hand_scale: Vector2
+var was_on_floor: bool = false
 
 
 func _physics_process(delta: float) -> void:
@@ -34,6 +36,11 @@ func _physics_process(delta: float) -> void:
 			velocity.y = JUMP_VELOCITY
 
 	move_and_slide()
+
+	if not was_on_floor and is_on_floor():
+		spawn_dust()
+
+	was_on_floor = is_on_floor()
 
 
 func _update_hand_rotation(delta: float) -> void:
@@ -47,7 +54,7 @@ func _update_hand_rotation(delta: float) -> void:
 	hands_sprite.scale = hands_sprite.scale.lerp(default_hand_scale, delta * 3)
 
 	current_shoot_direction = Vector2.from_angle(target_angle)
-	
+
 	queue_redraw()
 
 
@@ -81,7 +88,21 @@ func _draw() -> void:
 		var color = Color("#533838")
 		var width = 20.0
 		var radius = width / 2.0
-		
+
 		draw_line(start, end, color, width)
 		draw_circle(start, radius, color)
 		draw_circle(end, radius, color)
+
+
+func spawn_dust():
+	if dust_scene:
+		var dust = dust_scene.instantiate()
+		dust.global_position = global_position + Vector2(0, 100) # Assuming pivot is center and feet are lower
+		# Use collision shape offset to guess feet? Or just global_position if pivot is feet?
+		# Player CollisionShape pos is (0, -113.5) with size.y 225. Pivot seems to be feet?
+		# Looking at `CollisionShape2D` pos `(0, -113.5)` in `player.tscn`.
+		# If user pivots are standard, position (0,0) is usually feet.
+		# Let's inspect tscn again or assume 0,0 is feet.
+		# In tscn earlier: CollisionShape2D pos is -113.5, size is 225. 225/2 = ~112.5. So 0 is indeed bottom/feet.
+		dust.global_position = global_position
+		get_parent().add_child(dust)
