@@ -8,10 +8,10 @@ const MAX_SPEED := 1400
 @onready var game_floor: StaticBody2D = $Floor
 
 const VILLAIN_LIST := [
-	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Liquid/toxic_water.tscn"),
-	preload("res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.tscn"),
-	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Traps/trap1.tscn"),
-	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/StandartBlock/block.tscn"),
+	#preload("res://Scripts/Environment/Obstacles/StaticObstacles/Liquid/toxic_water.tscn"),
+	#preload("res://Scripts/Environment/Obstacles/Villains/Villain1/villain_1.tscn"),
+	#preload("res://Scripts/Environment/Obstacles/StaticObstacles/Traps/trap1.tscn"),
+	#preload("res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/StandartBlock/block.tscn"),
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/FlyingObstacles/Drons/drone.tscn"),
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/Barrel/barrel.tscn")
 ]
