@@ -18,10 +18,12 @@ func _ready() -> void:
 	if players.size() > 0:
 		player = players[0]
 
-func _process(_delta: float) -> void:
-	# Visual pulsing effect: Cycle between White and Reddish
-	var t = Time.get_ticks_msec() * 0.005
-	var color_val = (sin(t) + 1.0) * 0.5 # 0 to 1
+var time_alive: float = 4.71
+
+func _process(delta: float) -> void:
+	time_alive += delta
+
+	var color_val = (sin(time_alive * 5.0) + 1.0) * 0.5
 	$Drone1.modulate = Color(1.0, 0.7 + 0.25 * color_val, 0.7 + 0.25 * color_val)
 
 func _physics_process(_delta: float) -> void:
