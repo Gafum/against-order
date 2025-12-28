@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 
+signal player_died
+
 func _ready() -> void:
 	add_to_group("Player")
 	default_hand_scale = hands_sprite.scale
@@ -36,6 +38,11 @@ func _physics_process(delta: float) -> void:
 			velocity.y = JUMP_VELOCITY
 
 	move_and_slide()
+
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		if collision.get_collider().is_in_group("Obstacle"):
+			die()
 
 	if not was_on_floor and is_on_floor():
 		spawn_dust()
@@ -106,3 +113,9 @@ func spawn_dust():
 		# In tscn earlier: CollisionShape2D pos is -113.5, size is 225. 225/2 = ~112.5. So 0 is indeed bottom/feet.
 		dust.global_position = global_position
 		get_parent().add_child(dust)
+
+
+func die():
+	player_died.emit()
+	set_physics_process(false) # Stop player movement
+	set_process_input(false) # Stop shooting

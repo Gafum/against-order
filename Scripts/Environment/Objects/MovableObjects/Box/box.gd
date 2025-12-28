@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 func _ready() -> void:
+	add_to_group("Obstacle")
 	contact_monitor = true
 	max_contacts_reported = 3
 	body_entered.connect(_on_body_entered)

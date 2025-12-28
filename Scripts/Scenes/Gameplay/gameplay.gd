@@ -18,6 +18,7 @@ const VILLAIN_LIST := [
 
 var speed := 1000.0
 var score: float = 0.0
+var is_game_over: bool = false
 @onready var score_label = $CanvasLayer/AspectRatioContainer/MarginContainer/Label
 
 var next_villain_x_position: float = 1500.0
@@ -28,8 +29,13 @@ func _ready() -> void:
 	# Create UI Layer
 	var canvas_layer = CanvasLayer.new()
 	add_child(canvas_layer)
+	
+	player.player_died.connect(_on_player_died)
 
 func _physics_process(delta: float) -> void:
+	if is_game_over:
+		return
+		
 	player.velocity.x = speed * delta * 100
 	var player_x = player.global_position.x
 	
@@ -64,3 +70,8 @@ func spawn_villain(player_x: float):
 		)
 		new_villain.scale = Vector2(0.7, 0.7)
 		add_child(new_villain)
+
+
+func _on_player_died():
+	is_game_over = true
+	# We will show the UI in the next commit
