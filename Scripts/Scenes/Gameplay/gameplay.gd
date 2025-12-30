@@ -16,6 +16,8 @@ const VILLAIN_LIST := [
 	preload("res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/Barrel/barrel.tscn")
 ]
 
+var game_over_ui_scene = preload("res://Scripts/Interface/GameOver/game_over_ui.tscn")
+
 var speed := 1000.0
 var score: float = 0.0
 var is_game_over: bool = false
@@ -25,11 +27,6 @@ var next_villain_x_position: float = 1500.0
 
 func _ready() -> void:
 	next_villain_x_position = player.global_position.x
-	
-	# Create UI Layer
-	var canvas_layer = CanvasLayer.new()
-	add_child(canvas_layer)
-	
 	player.player_died.connect(_on_player_died)
 
 func _physics_process(delta: float) -> void:
@@ -74,4 +71,5 @@ func spawn_villain(player_x: float):
 
 func _on_player_died():
 	is_game_over = true
-	# We will show the UI in the next commit
+	var game_over_ui = game_over_ui_scene.instantiate()
+	$CanvasLayer.add_child(game_over_ui)
