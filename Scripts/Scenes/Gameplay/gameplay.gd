@@ -26,13 +26,14 @@ var is_game_over: bool = false
 var next_villain_x_position: float = 1500.0
 
 func _ready() -> void:
+	Global.is_game_over = false
 	next_villain_x_position = player.global_position.x
 	player.player_died.connect(_on_player_died)
 
 func _physics_process(delta: float) -> void:
 	if is_game_over:
 		return
-		
+		 
 	player.velocity.x = speed * delta * 100
 	var player_x = player.global_position.x
 	
@@ -71,5 +72,6 @@ func spawn_villain(player_x: float):
 
 func _on_player_died():
 	is_game_over = true
+	Global.is_game_over = true
 	var game_over_ui = game_over_ui_scene.instantiate()
 	$CanvasLayer.add_child(game_over_ui)

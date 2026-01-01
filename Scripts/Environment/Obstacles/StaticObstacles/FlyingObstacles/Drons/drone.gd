@@ -27,6 +27,9 @@ func _process(delta: float) -> void:
 	$Drone1.modulate = Color(1.0, 0.7 + 0.25 * color_val, 0.7 + 0.25 * color_val)
 
 func _physics_process(_delta: float) -> void:
+	if Global.is_game_over:
+		return
+		
 	if player and can_drop:
 		var dist_x = global_position.x - player.global_position.x
 		

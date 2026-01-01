@@ -6,7 +6,14 @@ func _ready() -> void:
 	max_contacts_reported = 3
 	body_entered.connect(_on_body_entered)
 
+func _physics_process(_delta: float) -> void:
+	if Global.is_game_over:
+		freeze = true
+
 func _on_body_entered(body: Node) -> void:
+	if Global.is_game_over:
+		return
+		
 	if body.is_in_group("Player"):
 		if body.has_method("die"):
 			body.die()

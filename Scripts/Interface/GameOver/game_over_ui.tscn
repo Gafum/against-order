@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://game_over_ui_scene"]
+[gd_scene load_steps=2 format=3 uid="uid://0m67dr12wpjy"]
 
-[ext_resource type="Script" path="res://Scripts/Interface/GameOver/game_over_ui.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bn2qmr2e8qn2n" path="res://Scripts/Interface/GameOver/game_over_ui.gd" id="1_script"]
 
 [node name="GameOverUI" type="Control"]
 layout_mode = 3
@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.498039)
+color = Color(0, 0, 0, 0.39215687)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

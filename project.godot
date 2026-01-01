@@ -20,6 +20,10 @@ boot_splash/use_filter=false
 boot_splash/image="uid://c8kyvdly8cki2"
 config/icon="uid://b121ur6g2ijsp"
 
+[autoload]
+
+Global="*res://Scripts/Global/Global.gd"
+
 [display]
 
 window/size/viewport_width=1280
