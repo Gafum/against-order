@@ -62,10 +62,11 @@ func spawn_villain(player_x: float):
 		# creating the new Villain
 		var new_villain: CharacterBody2D = new_villain_object.instantiate()
 		new_villain.name = "VILLAIN" + str(Time.get_ticks_msec())
-		new_villain.global_position = Vector2(
-			int(get_viewport().get_visible_rect().size.x + player_x + speed),
-			VILLAIN_Y
-		)
+		
+		# Always spawn at a fixed distance from the player, regardless of screen resolution
+		var spawn_x = player_x + 1500 + speed
+		
+		new_villain.global_position = Vector2(spawn_x, VILLAIN_Y)
 		new_villain.scale = Vector2(0.7, 0.7)
 		add_child(new_villain)
 
@@ -73,5 +74,9 @@ func spawn_villain(player_x: float):
 func _on_player_died():
 	is_game_over = true
 	Global.is_game_over = true
+	
+	score_label.visible = false
+	
 	var game_over_ui = game_over_ui_scene.instantiate()
 	$CanvasLayer.add_child(game_over_ui)
+	game_over_ui.set_score(int(score))

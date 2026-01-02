@@ -21,6 +21,9 @@ func _ready() -> void:
 var time_alive: float = 4.71
 
 func _process(delta: float) -> void:
+	if Global.is_game_over:
+		return
+		
 	time_alive += delta
 
 	var color_val = (sin(time_alive * 5.0) + 1.0) * 0.5

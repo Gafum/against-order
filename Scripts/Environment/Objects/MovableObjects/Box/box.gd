@@ -26,6 +26,10 @@ func _on_body_entered(body: Node) -> void:
 const EXPLOSION_SCENE = preload("res://Scripts/Effects/BoxExplosion/box_explosion.tscn")
 
 func explode() -> void:
+	# If game is over, don't explode and vanish, just stay there to show the cause of death
+	if Global.is_game_over:
+		return
+		
 	# Spawn explosion effect
 	var explosion = EXPLOSION_SCENE.instantiate()
 	explosion.global_position = global_position
