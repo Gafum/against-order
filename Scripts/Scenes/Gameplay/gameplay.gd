@@ -1,7 +1,7 @@
 extends Node2D
 
 const VILLAIN_Y := 648
-const MAX_SPEED := 1400
+const MAX_SPEED := 1700
 
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
@@ -18,7 +18,7 @@ const VILLAIN_LIST := [
 
 var game_over_ui_scene = preload("res://Scripts/Interface/GameOver/game_over_ui.tscn")
 
-var speed := 1000.0
+var speed := 1300.0
 var score: float = 0.0
 var is_game_over: bool = false
 @onready var score_label = $CanvasLayer/AspectRatioContainer/MarginContainer/Label
@@ -45,8 +45,10 @@ func _physics_process(delta: float) -> void:
 	camera.global_position.x = player_x + relative_camera_position
 	game_floor.global_position.x = player_x + relative_camera_position
 	if (speed < MAX_SPEED):
-		speed += delta * 5 # Increased acceleration slightly as requested ("just increase speed little by little")
+		speed += delta * 7 # Increased acceleration slightly as requested ("just increase speed little by little")
 	spawn_villain(player_x)
+	print(speed)
+
 
 func spawn_villain(player_x: float):
 	# check if it is enogth space
@@ -54,7 +56,7 @@ func spawn_villain(player_x: float):
 		return
 		
 	# set the next position of the villain
-	next_villain_x_position = int(player_x + speed + randi_range(0, 200))
+	next_villain_x_position = int(player_x + max(720, speed/2) + randi_range(0, 200))
 	
 	var new_villain_object = VILLAIN_LIST[randi_range(0, VILLAIN_LIST.size() - 1)]
 	
