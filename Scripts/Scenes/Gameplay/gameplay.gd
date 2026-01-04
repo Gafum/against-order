@@ -47,7 +47,6 @@ func _physics_process(delta: float) -> void:
 	if (speed < MAX_SPEED):
 		speed += delta * 7 # Increased acceleration slightly as requested ("just increase speed little by little")
 	spawn_villain(player_x)
-	print(speed)
 
 
 func spawn_villain(player_x: float):
