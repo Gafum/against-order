@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt4b8ccif2pc5"
-path="res://.godot/imported/donat.png-694fabe639bb4aa97e182c473e07d2b0.ctex"
+uid="uid://dhu55qwqc47lf"
+path="res://.godot/imported/Donat.png-a1a717a5aa16b3a825531d907db3b9b4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Attacks/donat.png"
-dest_files=["res://.godot/imported/donat.png-694fabe639bb4aa97e182c473e07d2b0.ctex"]
+source_file="res://assets/Attacks/Donat.png"
+dest_files=["res://.godot/imported/Donat.png-a1a717a5aa16b3a825531d907db3b9b4.ctex"]
 
 [params]
 

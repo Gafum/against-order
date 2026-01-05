@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://qganrvf2hkuq" path="res://assets/Attacks/Banana.png" id="2_kj32c"]
 [ext_resource type="Texture2D" uid="uid://d06wdk5va2euk" path="res://assets/Attacks/Cup.png" id="3_42gkj"]
 [ext_resource type="Texture2D" uid="uid://b6xgerrdnl2yi" path="res://assets/Attacks/Apple.png" id="4_d2dbu"]
-[ext_resource type="Texture2D" uid="uid://bt4b8ccif2pc5" path="res://assets/Attacks/donat.png" id="5_rh416"]
+[ext_resource type="Texture2D" uid="uid://dhu55qwqc47lf" path="res://assets/Attacks/Donat.png" id="5_kj32c"]
 [ext_resource type="Texture2D" uid="uid://bwpyejvwu6yrt" path="res://assets/Attacks/Hotdog.png" id="6_26e57"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0axs"]
@@ -38,7 +38,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_rh416")
+"texture": ExtResource("5_kj32c")
 }],
 "loop": true,
 "name": &"donat",
@@ -67,6 +67,7 @@ rect = Rect2(-6.8355823, -20.999683, 10.688365, 42.676777)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.14876041, 0.14876033)
 sprite_frames = SubResource("SpriteFrames_a5ts0")
+animation = &"cup"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
