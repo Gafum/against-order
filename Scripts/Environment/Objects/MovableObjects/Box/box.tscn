@@ -1,22 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://box_unique_id_123"]
+[gd_scene load_steps=4 format=3 uid="uid://cn0fq5ty0qcbd"]
 
-[ext_resource type="Script" path="res://Scripts/Environment/Objects/MovableObjects/Box/box.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://xty2ugb07wqx" path="res://Scripts/Environment/Objects/MovableObjects/Box/box.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c3ag8lauic3j" path="res://assets/Obstacles/Attacks/Cake.png" id="2_12x6q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(40, 40)
+size = Vector2(74, 82)
 
 [node name="Box" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_script")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-color = Color(0.8, 0.2, 0.2, 1)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1")
 
+[node name="Cake" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.56060606, 0.5606059)
+texture = ExtResource("2_12x6q")
