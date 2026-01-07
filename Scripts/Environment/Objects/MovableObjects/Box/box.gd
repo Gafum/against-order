@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 func _ready() -> void:
-	self.rotation = PI
+	self.rotate(randf_range(PI, PI*1.1)+0.4)
 	add_to_group("Obstacle")
 	contact_monitor = true
 	max_contacts_reported = 3
