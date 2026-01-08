@@ -2,10 +2,16 @@ extends CharacterBody2D
 
 
 signal player_died
+signal weapon_reloading(progress: float)
+
+@export var reload_time: float = 0.4
+var current_reload_time: float = 0.0
+
 
 func _ready() -> void:
 	add_to_group("Player")
 	default_hand_scale = hands_sprite.scale
+	current_reload_time = reload_time # Start with cooldown
 
 
 const JUMP_VELOCITY = -1200.0
@@ -31,6 +37,14 @@ var was_on_floor: bool = false
 
 func _physics_process(delta: float) -> void:
 	_update_hand_rotation(delta)
+
+	if current_reload_time > 0:
+		current_reload_time -= delta
+		if current_reload_time <= 0:
+			current_reload_time = 0
+			weapon_reloading.emit(1.0)
+		else:
+			weapon_reloading.emit(1.0 - (current_reload_time / reload_time))
 
 	velocity += get_gravity() * delta
 	if is_on_floor_only():
@@ -71,8 +85,11 @@ func _input(event):
 
 
 func shoot():
-	if bullet_scene == null:
+	if bullet_scene == null or current_reload_time > 0:
 		return
+
+	current_reload_time = reload_time
+	weapon_reloading.emit(0.0)
 
 	var bullet = bullet_scene.instantiate()
 
