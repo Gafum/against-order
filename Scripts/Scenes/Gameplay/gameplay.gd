@@ -21,7 +21,8 @@ var game_over_ui_scene = preload("res://Scripts/Interface/GameOver/game_over_ui.
 var speed := 1300.0
 var score: float = 0.0
 var is_game_over: bool = false
-@onready var score_label = $CanvasLayer/AspectRatioContainer/MarginContainer/Label
+@onready var score_label = $CanvasLayer/UIMarginContainer/VBoxContainer/Label
+@onready var reload_bar: ProgressBar = %ReloadBar
 
 var next_villain_x_position: float = 1500.0
 
@@ -29,6 +30,10 @@ func _ready() -> void:
 	Global.is_game_over = false
 	next_villain_x_position = player.global_position.x
 	player.player_died.connect(_on_player_died)
+	player.weapon_reloading.connect(_on_player_weapon_reloading)
+
+func _on_player_weapon_reloading(progress: float):
+	reload_bar.value = progress * 100
 
 func _physics_process(delta: float) -> void:
 	if is_game_over:
@@ -55,7 +60,7 @@ func spawn_villain(player_x: float):
 		return
 		
 	# set the next position of the villain
-	next_villain_x_position = int(player_x + max(720, speed/2) + randi_range(0, 200))
+	next_villain_x_position = int(player_x + max(720, speed / 2) + randi_range(0, 200))
 	
 	var new_villain_object = VILLAIN_LIST[randi_range(0, VILLAIN_LIST.size() - 1)]
 	
@@ -77,6 +82,7 @@ func _on_player_died():
 	Global.is_game_over = true
 	
 	score_label.visible = false
+	reload_bar.visible = false
 	
 	var game_over_ui = game_over_ui_scene.instantiate()
 	$CanvasLayer.add_child(game_over_ui)
