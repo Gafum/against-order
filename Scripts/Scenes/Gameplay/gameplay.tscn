@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b1134d1r0wiwq" path="res://Scripts/Scenes/Gameplay/gameplay.gd" id="1_vf3l0"]
 [ext_resource type="PackedScene" uid="uid://c2o1mm0e8uchg" path="res://Scripts/Characters/Player/player.tscn" id="2_8udo8"]
 [ext_resource type="PackedScene" uid="uid://do8f5msxpoylu" path="res://Scripts/Environment/Objects/Floor/floor.tscn" id="2_nr0xe"]
-[ext_resource type="Texture2D" uid="uid://qrj2deww3u3a" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1Hands.png" id="5_gun"]
+[ext_resource type="Texture2D" uid="uid://bvcxvb81fxle4" path="res://assets/Interface/GunIcons.png" id="5_qv1li"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 0.392157)
@@ -52,10 +52,10 @@ scale = Vector2(3.2083333, 3.76)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="LeftMarginContainer" type="MarginContainer" parent="CanvasLayer"]
-offset_right = 240.0
-offset_bottom = 125.0
+offset_right = 200.0
+offset_bottom = 20.0
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
+theme_override_constants/margin_top = 18
 
 [node name="Label" type="Label" parent="CanvasLayer/LeftMarginContainer"]
 layout_mode = 2
@@ -68,23 +68,21 @@ text = "Score: 0"
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -300.0
-offset_bottom = 125.0
+offset_left = -260.0
+offset_bottom = 20.0
 grow_horizontal = 0
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 40
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 65
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/RightMarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 2
 
-[node name="GunIcon" type="TextureRect" parent="CanvasLayer/RightMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-texture = ExtResource("5_gun")
-expand_mode = 1
-stretch_mode = 5
+[node name="GunIcons" type="Sprite2D" parent="CanvasLayer/RightMarginContainer/HBoxContainer"]
+position = Vector2(221.99997, 3)
+scale = Vector2(-0.34263545, 0.3426355)
+texture = ExtResource("5_qv1li")
 
 [node name="ReloadBar" type="ProgressBar" parent="CanvasLayer/RightMarginContainer/HBoxContainer"]
 unique_name_in_owner = true
