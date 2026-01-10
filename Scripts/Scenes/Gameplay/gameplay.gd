@@ -21,8 +21,9 @@ var game_over_ui_scene = preload("res://Scripts/Interface/GameOver/game_over_ui.
 var speed := 1300.0
 var score: float = 0.0
 var is_game_over: bool = false
-@onready var score_label = $CanvasLayer/UIMarginContainer/VBoxContainer/Label
+@onready var score_label = $CanvasLayer/LeftMarginContainer/Label
 @onready var reload_bar: ProgressBar = %ReloadBar
+@onready var reload_container = $CanvasLayer/RightMarginContainer
 
 var next_villain_x_position: float = 1500.0
 
@@ -82,7 +83,7 @@ func _on_player_died():
 	Global.is_game_over = true
 	
 	score_label.visible = false
-	reload_bar.visible = false
+	reload_container.visible = false
 	
 	var game_over_ui = game_over_ui_scene.instantiate()
 	$CanvasLayer.add_child(game_over_ui)

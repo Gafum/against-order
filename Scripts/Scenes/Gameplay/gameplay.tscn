@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b1134d1r0wiwq" path="res://Scripts/Scenes/Gameplay/gameplay.gd" id="1_vf3l0"]
 [ext_resource type="PackedScene" uid="uid://c2o1mm0e8uchg" path="res://Scripts/Characters/Player/player.tscn" id="2_8udo8"]
 [ext_resource type="PackedScene" uid="uid://do8f5msxpoylu" path="res://Scripts/Environment/Objects/Floor/floor.tscn" id="2_nr0xe"]
+[ext_resource type="Texture2D" uid="uid://qrj2deww3u3a" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1Hands.png" id="5_gun"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 0.392157)
@@ -50,32 +51,46 @@ scale = Vector2(3.2083333, 3.76)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="UIMarginContainer" type="MarginContainer" parent="CanvasLayer"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -240.0
+[node name="LeftMarginContainer" type="MarginContainer" parent="CanvasLayer"]
+offset_right = 240.0
 offset_bottom = 125.0
-grow_horizontal = 0
+theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 40
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIMarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="CanvasLayer/UIMarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/LeftMarginContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 32
 text = "Score: 0"
-horizontal_alignment = 2
 
-[node name="ReloadBar" type="ProgressBar" parent="CanvasLayer/UIMarginContainer/VBoxContainer"]
+[node name="RightMarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_bottom = 125.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/RightMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="GunIcon" type="TextureRect" parent="CanvasLayer/RightMarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+texture = ExtResource("5_gun")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ReloadBar" type="ProgressBar" parent="CanvasLayer/RightMarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 12)
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_styles/background = SubResource("StyleBoxFlat_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 value = 100.0
