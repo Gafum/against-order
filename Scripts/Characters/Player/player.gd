@@ -79,6 +79,7 @@ func _update_hand_rotation(delta: float) -> void:
 	queue_redraw()
 
 
+# Shoot
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		shoot()
