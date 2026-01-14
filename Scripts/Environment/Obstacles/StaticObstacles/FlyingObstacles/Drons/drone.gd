@@ -4,6 +4,8 @@ const BOX_SCENE = preload("res://Scripts/Environment/Objects/MovableObjects/Box/
 
 @export var speed: float = 200.0
 
+@onready var DroneAnimation = $AnimatedSprite2D
+
 var player: Node2D = null
 # can bomb be droped
 var can_drop: bool = true
@@ -14,6 +16,7 @@ func _ready() -> void:
 	self.position.y -= get_viewport().get_visible_rect().size.y / 2
 	
 	# Find player
+	DroneAnimation.play("default")
 	var players = get_tree().get_nodes_in_group("Player")
 	if players.size() > 0:
 		player = players[0]
@@ -27,7 +30,7 @@ func _process(delta: float) -> void:
 	time_alive += delta
 
 	var color_val = (sin(time_alive * 5.0) + 1.0) * 0.5
-	$Drone1.modulate = Color(1.0, 0.7 + 0.25 * color_val, 0.7 + 0.25 * color_val)
+	DroneAnimation.modulate = Color(1.0, 0.7 + 0.25 * color_val, 0.7 + 0.25 * color_val)
 
 func _physics_process(_delta: float) -> void:
 	if Global.is_game_over:

@@ -1,8 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhpqo5s7hati3"]
+[gd_scene load_steps=8 format=3 uid="uid://dhpqo5s7hati3"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_jgj73"]
 [ext_resource type="Script" uid="uid://btpjh4gfvcow2" path="res://Scripts/Environment/Obstacles/StaticObstacles/FlyingObstacles/Drons/drone.gd" id="2_rnt7c"]
 [ext_resource type="Texture2D" uid="uid://c44b4xw24btc6" path="res://assets/Obstacles/StaticObstacles/FlyingObstacles/Drons/Drone1.png" id="3_w38uy"]
+[ext_resource type="Texture2D" uid="uid://bha67jn32kyi3" path="res://assets/Obstacles/StaticObstacles/FlyingObstacles/Drons/Drone2.png" id="4_w38uy"]
+[ext_resource type="Texture2D" uid="uid://qfnlomd6i6y" path="res://assets/Obstacles/StaticObstacles/FlyingObstacles/Drons/Drone3.png" id="5_qhejy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h8ham"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_w38uy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_w38uy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_qhejy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_w38uy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ydlvl"]
 size = Vector2(264, 86.75)
@@ -12,10 +34,11 @@ script = ExtResource("2_rnt7c")
 speed = 200.0
 is_destroyable = true
 
-[node name="Drone1" type="Sprite2D" parent="." index="0"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -42.999996)
 scale = Vector2(0.6885246, 0.68852466)
-texture = ExtResource("3_w38uy")
+sprite_frames = SubResource("SpriteFrames_h8ham")
+frame_progress = 0.9347349
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -43.625)
