@@ -25,6 +25,7 @@ var time_alive: float = 4.71
 
 func _process(delta: float) -> void:
 	if Global.is_game_over:
+		DroneAnimation.stop()
 		return
 		
 	time_alive += delta
