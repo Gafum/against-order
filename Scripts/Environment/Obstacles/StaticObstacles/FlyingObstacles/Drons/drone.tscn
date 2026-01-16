@@ -38,7 +38,7 @@ is_destroyable = true
 position = Vector2(0, -42.999996)
 scale = Vector2(0.6885246, 0.68852466)
 sprite_frames = SubResource("SpriteFrames_h8ham")
-frame_progress = 0.23245522
+frame_progress = 0.68365794
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -43.625)
