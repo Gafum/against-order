@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://bqtmybgq1kplg"]
+
+[ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_t0nit"]
+[ext_resource type="Script" uid="uid://cclxtda3mcjpi" path="res://Scripts/Environment/Obstacles/Villains/BaseVillain/base_villain.gd" id="2_iirjp"]
+[ext_resource type="Texture2D" uid="uid://b72mot4b071dm" path="res://assets/Characters/Villains/Villain1/Villain1.png" id="3_j73ur"]
+[ext_resource type="Texture2D" uid="uid://cfhul3p6cuias" path="res://assets/Characters/Villains/Villain2/Villain2.png" id="4_bu6d4"]
+[ext_resource type="Texture2D" uid="uid://dh8hr61g620oy" path="res://assets/Characters/Villains/Villain3/Villain3.png" id="5_5gt8x"]
+[ext_resource type="Texture2D" uid="uid://57qdigfhkjg1" path="res://assets/Characters/Villains/Villain4/Villain4.png" id="6_cnbwf"]
+[ext_resource type="Texture2D" uid="uid://dqmme488ggscs" path="res://assets/Characters/Villains/Villain5/Villain5.png" id="7_pt7bs"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a6j6c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_j73ur")
+}],
+"loop": true,
+"name": &"Villain1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_bu6d4")
+}],
+"loop": true,
+"name": &"Villain2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_5gt8x")
+}],
+"loop": true,
+"name": &"Villain3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_cnbwf")
+}],
+"loop": true,
+"name": &"Villain4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_pt7bs")
+}],
+"loop": true,
+"name": &"Villain5",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_knfil"]
+size = Vector2(136.9722, 291.58417)
+
+[node name="Villain1" instance=ExtResource("1_t0nit")]
+script = ExtResource("2_iirjp")
+is_destroyable = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(-10.000015, -147)
+sprite_frames = SubResource("SpriteFrames_a6j6c")
+animation = &"Villain1"
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(-7.500019, -147.25002)
+scale = Vector2(0.971, 1.01)
+shape = SubResource("RectangleShape2D_knfil")
+
+[node name="VisibleOnScreenEnabler2D" parent="." index="2"]
+position = Vector2(-11.000014, -95.999985)
+rect = Rect2(-30.449411, -134.80443, 61.147392, 199.83571)
