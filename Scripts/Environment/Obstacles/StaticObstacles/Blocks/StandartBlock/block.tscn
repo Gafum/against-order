@@ -1,24 +1,53 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm4eqq2scuw0i"]
+[gd_scene load_steps=8 format=3 uid="uid://cm4eqq2scuw0i"]
 
 [ext_resource type="PackedScene" uid="uid://cs5kqdaqi4842" path="res://Scripts/Environment/Obstacles/BaseObstacle/base_obstacle.tscn" id="1_mbhnw"]
 [ext_resource type="Texture2D" uid="uid://iwplunmcfd4d" path="res://assets/Obstacles/StaticObstacles/Blocks/block.png" id="2_ggnkp"]
 [ext_resource type="Script" uid="uid://lpscm1vplkuc" path="res://Scripts/Environment/Obstacles/StaticObstacles/Blocks/StandartBlock/block.gd" id="2_ggo33"]
+[ext_resource type="Texture2D" uid="uid://bdmvayslwn1yx" path="res://assets/Obstacles/StaticObstacles/Blocks/barrel.png" id="3_j2y2n"]
+[ext_resource type="Texture2D" uid="uid://ccmd5g14h23nj" path="res://assets/Obstacles/StaticObstacles/Blocks/trash.png" id="5_chtua"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ggo33"]
 size = Vector2(189, 189)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_o6hhn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_j2y2n")
+}],
+"loop": true,
+"name": &"barrel",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ggnkp")
+}],
+"loop": true,
+"name": &"box",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_chtua")
+}],
+"loop": true,
+"name": &"trash",
+"speed": 5.0
+}]
+
 [node name="Block" instance=ExtResource("1_mbhnw")]
 script = ExtResource("2_ggo33")
 
-[node name="Sprite" type="Sprite2D" parent="." index="0"]
-position = Vector2(-93, -189)
-texture = ExtResource("2_ggnkp")
-centered = false
-
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" parent="." index="0"]
 position = Vector2(0.5, -95.5)
 shape = SubResource("RectangleShape2D_ggo33")
 
-[node name="VisibleOnScreenEnabler2D" parent="." index="2"]
+[node name="VisibleOnScreenEnabler2D" parent="." index="1"]
 position = Vector2(-13, 5.0000005)
 rect = Rect2(-10.066948, -132.09479, 23.98668, 128.03033)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="2"]
+position = Vector2(1, -95)
+sprite_frames = SubResource("SpriteFrames_o6hhn")
+animation = &"box"
