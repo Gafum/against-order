@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2o1mm0e8uchg"]
+[gd_scene load_steps=7 format=3 uid="uid://c2o1mm0e8uchg"]
 
 [ext_resource type="Script" uid="uid://bccs8y2xh3jhd" path="res://Scripts/Characters/Player/player.gd" id="1_3mluk"]
 [ext_resource type="Texture2D" uid="uid://la6n7xwft520" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1.png" id="2_3mluk"]
@@ -17,6 +17,10 @@ animations = [{
 "name": &"Idle",
 "speed": 5.0
 }]
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.5132275, 0.93121696, 1)
+colors = PackedColorArray(1, 0.4, 0, 1, 1, 0.3925926, 0, 0.962963, 1, 0.2882716, 0, 0.44135803, 1, 0.2, 0, 0)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_3mluk")
@@ -40,6 +44,25 @@ offset = Vector2(120, -2)
 
 [node name="BulletMarker" type="Marker2D" parent="AnimatedSprite2D/Hands"]
 position = Vector2(255, -16)
+
+[node name="MuzzleFlash" type="CPUParticles2D" parent="AnimatedSprite2D/Hands"]
+unique_name_in_owner = true
+position = Vector2(263, -14)
+emitting = false
+amount = 3
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+direction = Vector2(-1, 0)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 600.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.525155, 0.11362806, 0.14890178, 1)
+color_ramp = SubResource("Gradient_fade")
 
 [node name="LeftHandMarker" type="Marker2D" parent="AnimatedSprite2D/Hands"]
 position = Vector2(173, 14)

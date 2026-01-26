@@ -15,6 +15,6 @@ func _ready() -> void:
 	if(random_ani_name == "box" || random_ani_name == "barrel"):
 		random_ani_name = "barrel"
 	else:
-		self.scale = Vector2(0.6, 0.6)
+		self.scale = Vector2(0.5, 0.5)
 		
 	animated_sprite_2d.play(random_ani_name)

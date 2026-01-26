@@ -20,6 +20,7 @@ var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bul
 var dust_scene = preload("res://Scripts/Effects/Dust/dust.tscn")
 
 @onready var bullet_marker: Marker2D = $AnimatedSprite2D/Hands/BulletMarker
+@onready var muzzle_flash: CPUParticles2D = %MuzzleFlash
 @onready var hands_sprite: Sprite2D = $AnimatedSprite2D/Hands
 @onready var left_schoulder_marker: Marker2D = $AnimatedSprite2D/LeftSchoulderMarker
 @onready var left_hand_marker: Marker2D = $AnimatedSprite2D/Hands/LeftHandMarker
@@ -105,6 +106,15 @@ func shoot():
 
 	get_tree().current_scene.add_child(bullet)
 
+	# Add muzzle flash effect with a tiny delay
+	await get_tree().create_timer(0.03).timeout
+	if !Global.is_game_over:
+		# Dynamically adjust velocity based on player speed to make it "hit hard" but keep it modest
+		var speed_boost = abs(velocity.x) * 0.16
+		muzzle_flash.initial_velocity_min = 200.0 + speed_boost
+		muzzle_flash.initial_velocity_max = 400.0 + speed_boost
+		muzzle_flash.restart()
+
 
 func _draw() -> void:
 	if left_schoulder_marker and left_hand_marker:
@@ -135,5 +145,7 @@ func spawn_dust():
 
 func die():
 	player_died.emit()
+	muzzle_flash.emitting = false
+	muzzle_flash.visible = false
 	set_physics_process(false) # Stop player movement
 	set_process_input(false) # Stop shooting
