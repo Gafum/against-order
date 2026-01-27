@@ -12,8 +12,11 @@ var can_drop: bool = true
 
 func _ready() -> void:
 	super._ready()
-	# Set starting position
-	self.position.y -= get_viewport().get_visible_rect().size.y / 2
+	# Set starting random position
+	var random_y = randf_range(175.0,
+		self.position.y - get_viewport().get_visible_rect().size.y / 2 + 75
+	)
+	self.global_position.y = random_y
 	
 	# Find player
 	DroneAnimation.play("default")
@@ -40,7 +43,8 @@ func _physics_process(_delta: float) -> void:
 	if player and can_drop:
 		var dist_x = global_position.x - player.global_position.x
 		
-		if dist_x > 140 and dist_x < 220:
+		# Allow drop at slightly larger range since we aim now
+		if dist_x > 140 and dist_x < 400:
 			drop_box()
 
 func drop_box() -> void:
@@ -49,5 +53,48 @@ func drop_box() -> void:
 	# Instantiate and spawn the box
 	var box = BOX_SCENE.instantiate()
 	box.global_position = global_position
-	box.linear_velocity = Vector2(0, 500) # Add initial downward velocity
+	
+	# Aim at player with EXACT intercept math
+	var projectile_speed := 1000.0
+	
+	var p_pos = player.global_position
+	var p_vel = player.velocity
+	var d_pos = global_position
+	
+	# Relative position
+	var dp = p_pos - d_pos
+
+	var a = p_vel.length_squared() - projectile_speed * projectile_speed
+	
+	# b = 2 * (dp . p_vel)
+	var b = 2 * dp.dot(p_vel)
+	
+	# c = |dp|^2
+	var c = dp.length_squared()
+	
+	# Solve quadratic
+	var t = 0.0
+	var discriminant = b * b - 4 * a * c
+	
+	if discriminant >= 0:
+		var sqrt_d = sqrt(discriminant)
+		var t1 = (-b - sqrt_d) / (2 * a)
+		var t2 = (-b + sqrt_d) / (2 * a)
+		
+		# We want the smallest positive time
+		if t1 > 0 and t2 > 0:
+			t = min(t1, t2)
+		elif t1 > 0:
+			t = t1
+		elif t2 > 0:
+			t = t2
+			
+	# Fallback if no solution or t is 0 (should rarely happen if speed is enough)
+	if t <= 0:
+		t = 0.5 # Default small guess
+		
+	var predicted_pos = p_pos + p_vel * t
+	var direction = (predicted_pos - d_pos).normalized()
+	
+	box.linear_velocity = direction * projectile_speed
 	get_tree().current_scene.add_child(box)
