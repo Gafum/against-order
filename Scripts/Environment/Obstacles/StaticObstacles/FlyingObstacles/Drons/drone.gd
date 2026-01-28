@@ -50,51 +50,88 @@ func _physics_process(_delta: float) -> void:
 func drop_box() -> void:
 	can_drop = false
 	
+	if not player:
+		return
+	
 	# Instantiate and spawn the box
 	var box = BOX_SCENE.instantiate()
 	box.global_position = global_position
 	
-	# Aim at player with EXACT intercept math
-	var projectile_speed := 1000.0
+	# Calculate predictive aim to hit moving player
+	var initial_velocity = calculate_predictive_velocity()
+	box.linear_velocity = initial_velocity
 	
-	var p_pos = player.global_position
-	var p_vel = player.velocity
-	var d_pos = global_position
-	
-	# Relative position
-	var dp = p_pos - d_pos
+	get_tree().current_scene.add_child(box)
 
-	var a = p_vel.length_squared() - projectile_speed * projectile_speed
+
+# Calculate the velocity needed for the bomb to hit the moving player
+func calculate_predictive_velocity() -> Vector2:
+	if not player:
+		return Vector2.DOWN * 500
 	
-	# b = 2 * (dp . p_vel)
-	var b = 2 * dp.dot(p_vel)
+	# Get current positions and velocities
+	var drone_pos = global_position
+	var player_pos = player.global_position
+	var player_vel = player.velocity if player.velocity else Vector2.ZERO
 	
-	# c = |dp|^2
-	var c = dp.length_squared()
+	# Bomb speed (horizontal component)
+	var bomb_speed = 600.0
 	
-	# Solve quadratic
-	var t = 0.0
+	# Relative position and velocity
+	var rel_pos = player_pos - drone_pos
+	var rel_vel = player_vel
+	
+	# Solve for intercept time using quadratic equation
+	# We need to find t such that: |rel_pos + rel_vel * t| = bomb_speed * t
+	# This expands to: a*t^2 + b*t + c = 0
+	var a = rel_vel.dot(rel_vel) - bomb_speed * bomb_speed
+	var b = 2 * rel_pos.dot(rel_vel)
+	var c = rel_pos.dot(rel_pos)
+	
+	var intercept_time = 0.0
+	
+	# Solve quadratic equation
 	var discriminant = b * b - 4 * a * c
 	
-	if discriminant >= 0:
-		var sqrt_d = sqrt(discriminant)
-		var t1 = (-b - sqrt_d) / (2 * a)
-		var t2 = (-b + sqrt_d) / (2 * a)
+	if abs(a) < 0.001:
+		# Linear case: player speed ≈ bomb speed
+		if abs(b) > 0.001:
+			intercept_time = -c / b
+		else:
+			intercept_time = 1.0
+	elif discriminant >= 0:
+		# Two solutions, pick the positive one (future intercept)
+		var sqrt_discriminant = sqrt(discriminant)
+		var t1 = (-b + sqrt_discriminant) / (2 * a)
+		var t2 = (-b - sqrt_discriminant) / (2 * a)
 		
-		# We want the smallest positive time
+		# Choose the smallest positive time
 		if t1 > 0 and t2 > 0:
-			t = min(t1, t2)
+			intercept_time = min(t1, t2)
 		elif t1 > 0:
-			t = t1
+			intercept_time = t1
 		elif t2 > 0:
-			t = t2
-			
-	# Fallback if no solution or t is 0 (should rarely happen if speed is enough)
-	if t <= 0:
-		t = 0.5 # Default small guess
-		
-	var predicted_pos = p_pos + p_vel * t
-	var direction = (predicted_pos - d_pos).normalized()
+			intercept_time = t2
+		else:
+			intercept_time = 1.0
+	else:
+		# No solution - player too fast, aim at current predicted position
+		intercept_time = 1.0
 	
-	box.linear_velocity = direction * projectile_speed
-	get_tree().current_scene.add_child(box)
+	# Clamp intercept time to reasonable values
+	intercept_time = clamp(intercept_time, 0.1, 3.0)
+	
+	# Calculate predicted player position
+	var predicted_pos = player_pos + player_vel * intercept_time
+	
+	# Account for gravity during flight
+	# y = y0 + vy*t + 0.5*g*t^2
+	# We need: predicted_pos.y = drone_pos.y + vy*t + 0.5*g*t^2
+	# So: vy = (predicted_pos.y - drone_pos.y) / t - 0.5*g*t
+	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
+	
+	var direction = predicted_pos - drone_pos
+	var velocity_horizontal = direction.x / intercept_time
+	var velocity_vertical = direction.y / intercept_time - 0.5 * gravity * intercept_time
+	
+	return Vector2(velocity_horizontal, velocity_vertical)
