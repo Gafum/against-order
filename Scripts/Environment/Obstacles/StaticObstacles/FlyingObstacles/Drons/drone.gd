@@ -69,69 +69,32 @@ func calculate_predictive_velocity() -> Vector2:
 	if not player:
 		return Vector2.DOWN * 500
 	
-	# Get current positions and velocities
-	var drone_pos = global_position
-	var player_pos = player.global_position
-	var player_vel = player.velocity if player.velocity else Vector2.ZERO
-	
-	# Bomb speed (horizontal component)
-	var bomb_speed = 600.0
-	
-	# Relative position and velocity
-	var rel_pos = player_pos - drone_pos
-	var rel_vel = player_vel
-	
-	# Solve for intercept time using quadratic equation
-	# We need to find t such that: |rel_pos + rel_vel * t| = bomb_speed * t
-	# This expands to: a*t^2 + b*t + c = 0
-	var a = rel_vel.dot(rel_vel) - bomb_speed * bomb_speed
-	var b = 2 * rel_pos.dot(rel_vel)
-	var c = rel_pos.dot(rel_pos)
-	
-	var intercept_time = 0.0
-	
-	# Solve quadratic equation
-	var discriminant = b * b - 4 * a * c
-	
-	if abs(a) < 0.001:
-		# Linear case: player speed ≈ bomb speed
-		if abs(b) > 0.001:
-			intercept_time = -c / b
-		else:
-			intercept_time = 1.0
-	elif discriminant >= 0:
-		# Two solutions, pick the positive one (future intercept)
-		var sqrt_discriminant = sqrt(discriminant)
-		var t1 = (-b + sqrt_discriminant) / (2 * a)
-		var t2 = (-b - sqrt_discriminant) / (2 * a)
-		
-		# Choose the smallest positive time
-		if t1 > 0 and t2 > 0:
-			intercept_time = min(t1, t2)
-		elif t1 > 0:
-			intercept_time = t1
-		elif t2 > 0:
-			intercept_time = t2
-		else:
-			intercept_time = 1.0
-	else:
-		# No solution - player too fast, aim at current predicted position
-		intercept_time = 1.0
-	
-	# Clamp intercept time to reasonable values
-	intercept_time = clamp(intercept_time, 0.1, 3.0)
-	
-	# Calculate predicted player position
-	var predicted_pos = player_pos + player_vel * intercept_time
-	
-	# Account for gravity during flight
-	# y = y0 + vy*t + 0.5*g*t^2
-	# We need: predicted_pos.y = drone_pos.y + vy*t + 0.5*g*t^2
-	# So: vy = (predicted_pos.y - drone_pos.y) / t - 0.5*g*t
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 	
-	var direction = predicted_pos - drone_pos
-	var velocity_horizontal = direction.x / intercept_time
-	var velocity_vertical = direction.y / intercept_time - 0.5 * gravity * intercept_time
+	# Позиції
+	var bomb_start = global_position
+	var player_pos = player.global_position
+	var player_vel = player.velocity
 	
-	return Vector2(velocity_horizontal, velocity_vertical)
+	# Вертикальна відстань (завжди позитивна, бо дрон вище гравця)
+	var height = player_pos.y - bomb_start.y
+	
+	# Якщо гравець вище дрона - просто падаємо вниз
+	if height <= 0:
+		return Vector2(0, 100)
+	
+	# Час падіння з формули: h = 0.5 * g * t^2
+	# t = sqrt(2 * h / g)
+	var fall_time = sqrt(2.0 * height / gravity)
+	
+	# Де буде гравець через цей час
+	var predicted_player_x = player_pos.x + player_vel.x * fall_time
+	
+	# Горизонтальна відстань яку треба покрити
+	var horizontal_distance = predicted_player_x - bomb_start.x
+	
+	# Горизонтальна швидкість = відстань / час
+	var horizontal_velocity = horizontal_distance / fall_time
+	
+	# Вертикальна швидкість = 0 (бомба просто падає під дією гравітації)
+	return Vector2(horizontal_velocity, 0)
