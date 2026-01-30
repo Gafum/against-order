@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 func _ready() -> void:
-	self.rotate(randf_range(PI, PI * 1.1) + 0.4)
+	self.rotate(randf_range(PI, PI * 1.1) + 0.5)
 	add_to_group("Obstacle")
 	contact_monitor = true
 	max_contacts_reported = 3
@@ -16,12 +16,22 @@ func _on_body_entered(body: Node) -> void:
 		return
 		
 	if body.is_in_group("Player"):
+		# Freeze immediately to prevent jittering
+		freeze = true
+		linear_velocity = Vector2.ZERO
+		angular_velocity = 0.0
+		
 		if body.has_method("die"):
 			body.die()
 		elif body.has_method("take_damage"):
 			body.take_damage()
 		explode()
 	elif body is TileMap or body.name == "Floor":
+		# Freeze immediately to prevent jittering
+		freeze = true
+		linear_velocity = Vector2.ZERO
+		angular_velocity = 0.0
+		
 		explode()
 
 const EXPLOSION_SCENE = preload("res://Scripts/Effects/BoxExplosion/box_explosion.tscn")

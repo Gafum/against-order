@@ -71,30 +71,30 @@ func calculate_predictive_velocity() -> Vector2:
 	
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 	
-	# Позиції
+	# Positions
 	var bomb_start = global_position
 	var player_pos = player.global_position
 	var player_vel = player.velocity
 	
-	# Вертикальна відстань (завжди позитивна, бо дрон вище гравця)
+	# If player is below the drone
 	var height = player_pos.y - bomb_start.y
 	
-	# Якщо гравець вище дрона - просто падаємо вниз
+	# If player is below the drone
 	if height <= 0:
 		return Vector2(0, 100)
 	
-	# Час падіння з формули: h = 0.5 * g * t^2
+	# Time to fall: h = 0.5 * g * t^2
 	# t = sqrt(2 * h / g)
 	var fall_time = sqrt(2.0 * height / gravity)
 	
-	# Де буде гравець через цей час
+	# Player position at impact
 	var predicted_player_x = player_pos.x + player_vel.x * fall_time
 	
-	# Горизонтальна відстань яку треба покрити
+	# Horizontal distance to cover
 	var horizontal_distance = predicted_player_x - bomb_start.x
 	
-	# Горизонтальна швидкість = відстань / час
+	# Horizontal velocity
 	var horizontal_velocity = horizontal_distance / fall_time
 	
-	# Вертикальна швидкість = 0 (бомба просто падає під дією гравітації)
+	# Vertical velocity
 	return Vector2(horizontal_velocity, 0)
