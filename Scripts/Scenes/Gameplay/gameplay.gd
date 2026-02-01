@@ -61,7 +61,7 @@ func spawn_obstacle(player_x: float):
 		return
 		
 	# set the next position of the obstacle
-	next_obstacle_x_position = int(player_x + max(720, speed / 2) + randi_range(0, 200))
+	next_obstacle_x_position = int(player_x + max(720, speed / 2) + randi_range(0, 200)) + 120
 	
 	var new_obstacle_object = OBSTAVLES_LIST[randi_range(0, OBSTAVLES_LIST.size() - 1)]
 	

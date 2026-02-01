@@ -44,7 +44,7 @@ func _physics_process(_delta: float) -> void:
 		var dist_x = global_position.x - player.global_position.x
 		
 		# Allow drop at slightly larger range since we aim now
-		if dist_x > 140 and dist_x < 400:
+		if dist_x > 140 and dist_x < 250:
 			drop_box()
 
 func drop_box() -> void:
@@ -88,7 +88,7 @@ func calculate_predictive_velocity() -> Vector2:
 	var fall_time = sqrt(2.0 * height / gravity)
 	
 	# Player position at impact
-	var predicted_player_x = player_pos.x + player_vel.x * fall_time
+	var predicted_player_x = player_pos.x - 80 + player_vel.x * fall_time
 	
 	# Horizontal distance to cover
 	var horizontal_distance = predicted_player_x - bomb_start.x
