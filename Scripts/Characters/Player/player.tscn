@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2o1mm0e8uchg"]
+[gd_scene load_steps=8 format=3 uid="uid://c2o1mm0e8uchg"]
 
 [ext_resource type="Script" uid="uid://bccs8y2xh3jhd" path="res://Scripts/Characters/Player/player.gd" id="1_3mluk"]
 [ext_resource type="Texture2D" uid="uid://la6n7xwft520" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1.png" id="2_3mluk"]
+[ext_resource type="Texture2D" uid="uid://dgk54iolnrlfw" path="res://assets/Characters/Protagonist/Protagonist1/person.png" id="2_8qwp4"]
 [ext_resource type="Texture2D" uid="uid://qrj2deww3u3a" path="res://assets/Characters/Protagonist/Protagonist1/Protagonist1Hands.png" id="3_i1d7s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3mluk"]
@@ -10,6 +11,9 @@ size = Vector2(88, 225)
 [sub_resource type="SpriteFrames" id="SpriteFrames_jesbo"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8qwp4")
+}, {
 "duration": 1.0,
 "texture": ExtResource("2_3mluk")
 }],
