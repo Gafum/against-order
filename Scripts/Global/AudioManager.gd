@@ -1,7 +1,7 @@
 extends Node
 
 var music_player: AudioStreamPlayer
-const BACKGROUND_MUSIC_PATH = "res://assets/Musik/Background/game-background.mp3"
+const BACKGROUND_MUSIC_PATH = "res://assets/Musik/Background/game-background.wav"
 
 func _ready():
 	_setup_music_player()
