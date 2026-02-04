@@ -8,12 +8,13 @@ signal weapon_reloading(progress: float)
 var current_reload_time: float = 0.0
 
 # Leg animation variables
-@export var pants_color: Color = Color("#6b6b6b") # Gray pants
+@export var pants_color: Color = Color("#373737") # Gray pants
 var leg_animation_time: float = 0.0
-var leg_swing_speed: float = 10.0 # Speed of leg swing animation
-var max_leg_swing_angle: float = deg_to_rad(25) # Maximum swing angle
-var leg_width: float = 35.0
-var leg_height: float = 90.0
+# Increased speed and angle to match high movement speed (770)
+var leg_swing_speed: float = 12.0 # Was 10.0 - faster swing for running
+var max_leg_swing_angle: float = deg_to_rad(25) # Was 25 - wider stride for running
+var leg_width: float = 40.0
+var leg_height: float = 58.0
 
 
 func _ready() -> void:
@@ -64,8 +65,10 @@ func _physics_process(delta: float) -> void:
 
 	# Update leg animation based on movement
 	if abs(velocity.x) > 10:
+		# Sync animation speed with movement velocity more directly
 		leg_animation_time += delta * leg_swing_speed * (abs(velocity.x) / move_speed)
 	else:
+		# Reset legs to neutral position smoothly or instantly when stopped
 		leg_animation_time = 0
 
 	velocity += get_gravity() * delta
@@ -139,8 +142,9 @@ func shoot():
 
 func _draw() -> void:
 	# Draw legs (pants)
-	var body_bottom_y = 0 # Character pivot is at feet
-	var leg_separation = 20.0 # Distance between legs
+	# Position legs slightly higher to overlap body (-65 feels better connected than -55)
+	var body_bottom_y = -58
+	var leg_separation = 48.0 # Distance between legs
 	
 	# Calculate leg swing angles
 	var left_leg_angle = 0.0
@@ -151,13 +155,13 @@ func _draw() -> void:
 		left_leg_angle = sin(leg_animation_time) * max_leg_swing_angle
 		right_leg_angle = - sin(leg_animation_time) * max_leg_swing_angle
 	
-	# Draw left leg
-	var left_leg_offset = Vector2(-leg_separation / 2, body_bottom_y - leg_height / 2)
-	draw_rotated_rect(left_leg_offset, leg_width, leg_height, left_leg_angle, pants_color)
-	
-	# Draw right leg
-	var right_leg_offset = Vector2(leg_separation / 2, body_bottom_y - leg_height / 2)
+	# Draw right leg - position is at the TOP of the leg (hip attachment point)
+	var right_leg_offset = Vector2(leg_separation / 2, body_bottom_y)
 	draw_rotated_rect(right_leg_offset, leg_width, leg_height, right_leg_angle, pants_color)
+
+	# Draw left leg - position is at the TOP of the leg (hip attachment point)
+	var left_leg_offset = Vector2(-leg_separation / 2, body_bottom_y)
+	draw_rotated_rect(left_leg_offset, leg_width, leg_height, left_leg_angle, pants_color)
 	
 	# Draw arm (existing code)
 	if left_schoulder_marker and left_hand_marker:
@@ -173,16 +177,17 @@ func _draw() -> void:
 
 
 # Helper function to draw rotated rectangle
+# Rotates from the top center (hip pivot point)
 func draw_rotated_rect(center: Vector2, width: float, height: float, angle: float, color: Color) -> void:
 	var half_width = width / 2.0
-	var half_height = height / 2.0
 	
-	# Define corners of rectangle (centered at origin)
+	# Define corners of rectangle with rotation origin at TOP center
+	# (0, 0) is at the top center where the hip attaches
 	var corners = [
-		Vector2(-half_width, -half_height),
-		Vector2(half_width, -half_height),
-		Vector2(half_width, half_height),
-		Vector2(-half_width, half_height)
+		Vector2(-half_width, 0), # top-left
+		Vector2(half_width, 0), # top-right
+		Vector2(half_width, height), # bottom-right
+		Vector2(-half_width, height) # bottom-left
 	]
 	
 	# Rotate and translate corners
@@ -193,12 +198,6 @@ func draw_rotated_rect(center: Vector2, width: float, height: float, angle: floa
 	
 	# Draw filled polygon
 	draw_colored_polygon(transformed_corners, color)
-	
-	# Draw outline for better visibility
-	for i in range(4):
-		var start_point = transformed_corners[i]
-		var end_point = transformed_corners[(i + 1) % 4]
-		draw_line(start_point, end_point, Color.BLACK, 3.0)
 
 
 func spawn_dust():
