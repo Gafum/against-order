@@ -141,27 +141,30 @@ func shoot():
 
 
 func _draw() -> void:
-	# Draw legs (pants)
-	# Position legs slightly higher to overlap body (-65 feels better connected than -55)
+	# Advanced Procedural Legs (Thigh + Calf + Foot)
 	var body_bottom_y = -58
-	var leg_separation = 48.0 # Distance between legs
+	var leg_separation = 48.0
 	
-	# Calculate leg swing angles
-	var left_leg_angle = 0.0
-	var right_leg_angle = 0.0
+	# Leg dimensions
+	var thigh_length = 22.0 # Was 27.0 - shortened further per request
+	var calf_length = 22.0 # Was 27.0
+	var foot_length = 22.0
+	var foot_height = 12.0
+	var leg_thickness = 40.0 # Standard width from variables
 	
-	if leg_animation_time > 0:
-		# Legs swing in opposite directions
-		left_leg_angle = sin(leg_animation_time) * max_leg_swing_angle
-		right_leg_angle = - sin(leg_animation_time) * max_leg_swing_angle
+	# Running Cycle Calculation
+	# We use sin/cos to determine phase of each leg
+	# Left leg phase
+	var left_phase = leg_animation_time
+	# Right leg phase (offset by PI for opposite movement)
+	var right_phase = leg_animation_time + PI
 	
-	# Draw right leg - position is at the TOP of the leg (hip attachment point)
-	var right_leg_offset = Vector2(leg_separation / 2, body_bottom_y)
-	draw_rotated_rect(right_leg_offset, leg_width, leg_height, right_leg_angle, pants_color)
+	# Draw Right Leg (Back) first so it appears behind
+	_draw_segment_leg(Vector2(leg_separation / 2, body_bottom_y), right_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color.darkened(0.1))
+	
+	# Draw Left Leg (Front)
+	_draw_segment_leg(Vector2(-leg_separation / 2, body_bottom_y), left_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color)
 
-	# Draw left leg - position is at the TOP of the leg (hip attachment point)
-	var left_leg_offset = Vector2(-leg_separation / 2, body_bottom_y)
-	draw_rotated_rect(left_leg_offset, leg_width, leg_height, left_leg_angle, pants_color)
 	
 	# Draw arm (existing code)
 	if left_schoulder_marker and left_hand_marker:
@@ -176,28 +179,85 @@ func _draw() -> void:
 		draw_circle(end, radius, color)
 
 
+# Helper function to get point on quadratic bezier curve
+func _get_bezier_point(t: float, p0: Vector2, p1: Vector2, p2: Vector2) -> Vector2:
+	var u = 1.0 - t
+	var tt = t * t
+	var uu = u * u
+	return (uu * p0) + (2 * u * t * p1) + (tt * p2)
+
+
 # Helper function to draw rotated rectangle
 # Rotates from the top center (hip pivot point)
-func draw_rotated_rect(center: Vector2, width: float, height: float, angle: float, color: Color) -> void:
-	var half_width = width / 2.0
+func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_len: float, width: float, foot_len: float, foot_h: float, color: Color) -> void:
+	var swing_angle = sin(phase) * max_leg_swing_angle
 	
-	# Define corners of rectangle with rotation origin at TOP center
-	# (0, 0) is at the top center where the hip attaches
-	var corners = [
-		Vector2(-half_width, 0), # top-left
-		Vector2(half_width, 0), # top-right
-		Vector2(half_width, height), # bottom-right
-		Vector2(-half_width, height) # bottom-left
-	]
+	# Knee Logic:
+	# When leg moves forward (swing phase), bend knee significantly
+	# When leg moves back (push phase), leg is mostly straight
+	var knee_bend_angle = 0.0
 	
-	# Rotate and translate corners
-	var transformed_corners = []
-	for corner in corners:
-		var rotated = corner.rotated(angle)
-		transformed_corners.append(center + rotated)
+	# Complex knee math for "cool" running look
+	# cos(phase) < 0 means leg is swinging forward (reversing logic per request)
+	if cos(phase) < 0:
+		# Bringing leg forward -> Bend knee to lift foot
+		# Reduced bend multiplier to 1.25 (approx 10% less than 1.4)
+		knee_bend_angle = 1.25 * abs(cos(phase))
+	else:
+		# Pushing back -> Slight bend or straight
+		knee_bend_angle = 0.2
+		
+	# Apply animation
+	var thigh_angle = swing_angle
+	var calf_angle = thigh_angle + knee_bend_angle # Calf adds rotation relative to thigh
 	
-	# Draw filled polygon
-	draw_colored_polygon(transformed_corners, color)
+	# Calculate Key Positions
+	var knee_pos = hip_pos + Vector2(0, thigh_len).rotated(thigh_angle)
+	var ankle_pos = knee_pos + Vector2(0, calf_len).rotated(calf_angle)
+	
+	# Calculate Control Point for Bezier Curve
+	# We want the curve to pass through the knee at t=0.5
+	# Formula: Control = 2 * Knee - 0.5 * (Hip + Ankle)
+	var control_point = 2 * knee_pos - 0.5 * (hip_pos + ankle_pos)
+	
+	# Create stylebox for rounded joints
+	var joint_style = StyleBoxFlat.new()
+	joint_style.bg_color = color
+	joint_style.set_corner_radius_all(8) # Fixed radius for rounded rect look
+	joint_style.set_corner_detail(4)
+	
+	# Draw Intermediate Rectangles along the curve
+	var num_segments = 8
+	var prev_pos = hip_pos
+	
+	# Draw hip joint using stylebox (centered)
+	draw_style_box(joint_style, Rect2(prev_pos - Vector2(width / 2, width / 2), Vector2(width, width)))
+	
+	for i in range(1, num_segments + 1):
+		var t = float(i) / float(num_segments)
+		var next_pos = _get_bezier_point(t, hip_pos, control_point, ankle_pos)
+		
+		# Calculate segment properties
+		var segment_vector = next_pos - prev_pos
+		var seg_length = segment_vector.length()
+		var seg_angle = segment_vector.angle()
+		var center = (prev_pos + next_pos) / 2.0
+		
+		# Draw rotated rectangle (segment)
+		# Adding slight overlap (+2) and width to merge with joint
+		draw_set_transform(center, seg_angle, Vector2.ONE)
+		draw_rect(Rect2(-seg_length / 2.0 - 1.0, -width / 2.0, seg_length + 2.0, width), color)
+		
+		# Reset transform for joint drawing
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		
+		# Draw joint rounded rect to fill gaps at "elbows"
+		draw_style_box(joint_style, Rect2(next_pos - Vector2(width / 2, width / 2), Vector2(width, width)))
+		
+		prev_pos = next_pos
+		
+	# Reset transform
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 func spawn_dust():
