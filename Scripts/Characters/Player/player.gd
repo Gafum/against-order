@@ -13,8 +13,6 @@ var leg_animation_time: float = 0.0
 # Increased speed and angle to match high movement speed (770)
 var leg_swing_speed: float = 12.0 # Was 10.0 - faster swing for running
 var max_leg_swing_angle: float = deg_to_rad(25) # Was 25 - wider stride for running
-var leg_width: float = 40.0
-var leg_height: float = 58.0
 
 
 func _ready() -> void:
@@ -142,15 +140,15 @@ func shoot():
 
 func _draw() -> void:
 	# Advanced Procedural Legs (Thigh + Calf + Foot)
-	var body_bottom_y = -58
-	var leg_separation = 48.0
+	var body_bottom_y = -55
+	var leg_separation = 43.0
 	
 	# Leg dimensions
-	var thigh_length = 22.0 # Was 27.0 - shortened further per request
-	var calf_length = 22.0 # Was 27.0
+	var thigh_length = 17.0 # Was 22.0 - shortened drastically per feedback
+	var calf_length = 17.0 # Was 22.0
 	var foot_length = 22.0
 	var foot_height = 12.0
-	var leg_thickness = 40.0 # Standard width from variables
+	var leg_thickness = 44.0 # Standard width from variables
 	
 	# Running Cycle Calculation
 	# We use sin/cos to determine phase of each leg
@@ -201,8 +199,8 @@ func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_le
 	# cos(phase) < 0 means leg is swinging forward (reversing logic per request)
 	if cos(phase) < 0:
 		# Bringing leg forward -> Bend knee to lift foot
-		# Reduced bend multiplier to 1.25 (approx 10% less than 1.4)
-		knee_bend_angle = 1.25 * abs(cos(phase))
+		# Reduced bend multiplier to 0.8 to avoid sharp L-shape (was 1.25)
+		knee_bend_angle = 0.8 * abs(cos(phase))
 	else:
 		# Pushing back -> Slight bend or straight
 		knee_bend_angle = 0.2
