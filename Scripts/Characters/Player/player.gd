@@ -138,6 +138,24 @@ func shoot():
 		muzzle_flash.restart()
 
 
+var death_spread: float = 0.0:
+	set(value):
+		death_spread = value
+		queue_redraw()
+
+
+func die():
+	player_died.emit()
+	muzzle_flash.emitting = false
+	muzzle_flash.visible = false
+	set_physics_process(false) # Stop player movement
+	set_process_input(false) # Stop shooting
+	
+	# Animate legs to spread out / \
+	var tween = create_tween()
+	tween.tween_property(self, "death_spread", 1.0, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
 func _draw() -> void:
 	# Advanced Procedural Legs (Thigh + Calf + Foot)
 	var body_bottom_y = -55
@@ -158,10 +176,12 @@ func _draw() -> void:
 	var right_phase = leg_animation_time + PI
 	
 	# Draw Right Leg (Back) first so it appears behind
-	_draw_segment_leg(Vector2(leg_separation / 2, body_bottom_y), right_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color.darkened(0.1))
+	# Target angle: Negative (Left/Front) e.g. -10 degrees per user request
+	_draw_segment_leg(Vector2(leg_separation / 2, body_bottom_y), right_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color.darkened(0.1), deg_to_rad(-14))
 	
 	# Draw Left Leg (Front)
-	_draw_segment_leg(Vector2(-leg_separation / 2, body_bottom_y), left_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color)
+	# Target angle: Positive (Right/Back) e.g. 10 degrees per user request
+	_draw_segment_leg(Vector2(-leg_separation / 2, body_bottom_y), left_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color, deg_to_rad(14))
 
 	
 	# Draw arm (existing code)
@@ -187,7 +207,7 @@ func _get_bezier_point(t: float, p0: Vector2, p1: Vector2, p2: Vector2) -> Vecto
 
 # Helper function to draw rotated rectangle
 # Rotates from the top center (hip pivot point)
-func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_len: float, width: float, foot_len: float, foot_h: float, color: Color) -> void:
+func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_len: float, width: float, _foot_len: float, _foot_h: float, color: Color, target_death_angle: float = 0.0) -> void:
 	var swing_angle = sin(phase) * max_leg_swing_angle
 	
 	# Knee Logic:
@@ -204,6 +224,14 @@ func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_le
 	else:
 		# Pushing back -> Slight bend or straight
 		knee_bend_angle = 0.2
+		
+	# Apply animation
+	# Interpolate to death pose if dying
+	if death_spread > 0.0:
+		swing_angle = lerp_angle(swing_angle, target_death_angle, death_spread)
+		knee_bend_angle = lerp(knee_bend_angle, 0.1, death_spread * 1.5) # Straighten legs on death
+		knee_bend_angle = max(0.0, knee_bend_angle) # Ensure non-negative
+
 		
 	# Apply animation
 	var thigh_angle = swing_angle
@@ -264,11 +292,3 @@ func spawn_dust():
 		dust.global_position = global_position + Vector2(0, 100)
 		dust.global_position = global_position
 		get_parent().add_child(dust)
-
-
-func die():
-	player_died.emit()
-	muzzle_flash.emitting = false
-	muzzle_flash.visible = false
-	set_physics_process(false) # Stop player movement
-	set_process_input(false) # Stop shooting
