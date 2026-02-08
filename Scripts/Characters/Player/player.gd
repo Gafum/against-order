@@ -62,12 +62,20 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, move_speed * delta * 5)
 
 	# Update leg animation based on movement
-	if abs(velocity.x) > 10:
+	if abs(velocity.x) > 10 and is_on_floor():
 		# Sync animation speed with movement velocity more directly
 		leg_animation_time += delta * leg_swing_speed * (abs(velocity.x) / move_speed)
 	else:
 		# Reset legs to neutral position smoothly or instantly when stopped
-		leg_animation_time = 0
+		pass # Keep current phase for blending if needed, or reset? Let's just stop incrementing.
+		
+	# Jump Animation Blend
+	if not is_on_floor():
+		jump_blend = move_toward(jump_blend, 1.0, delta * 10)
+	else:
+		if abs(velocity.x) < 10:
+			leg_animation_time = 0 # Reset walk cycle when stopped on floor
+		jump_blend = move_toward(jump_blend, 0.0, delta * 10)
 
 	velocity += get_gravity() * delta
 	if is_on_floor_only():
@@ -143,8 +151,15 @@ var death_spread: float = 0.0:
 		death_spread = value
 		queue_redraw()
 
+var jump_blend: float = 0.0
+var is_dead: bool = false
+
 
 func die():
+	if is_dead:
+		return
+	is_dead = true
+	
 	player_died.emit()
 	muzzle_flash.emitting = false
 	muzzle_flash.visible = false
@@ -153,7 +168,9 @@ func die():
 	
 	# Animate legs to spread out / \
 	var tween = create_tween()
-	tween.tween_property(self, "death_spread", 1.0, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "death_spread", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	# Force redraw on each frame since physics process is stopped
+	tween.tween_method(func(_v): queue_redraw(), 0.0, 1.0, 0.1)
 
 
 func _draw() -> void:
@@ -175,13 +192,22 @@ func _draw() -> void:
 	# Right leg phase (offset by PI for opposite movement)
 	var right_phase = leg_animation_time + PI
 	
+	# Jump Pose Targets
+	# Right Leg (Back): Slightly trailing
+	var jump_right_thigh = deg_to_rad(20)
+	var jump_right_knee = 0.3
+	
+	# Left Leg (Front): High knee tuck
+	var jump_left_thigh = deg_to_rad(-60)
+	var jump_left_knee = 1.2
+	
 	# Draw Right Leg (Back) first so it appears behind
-	# Target angle: Negative (Left/Front) e.g. -10 degrees per user request
-	_draw_segment_leg(Vector2(leg_separation / 2, body_bottom_y), right_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color.darkened(0.1), deg_to_rad(-14))
+	# Target angle: Negative (Left/Front) e.g. -14 degrees per user request
+	_draw_segment_leg(Vector2(leg_separation / 2, body_bottom_y), right_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color.darkened(0.1), deg_to_rad(-14), jump_right_thigh, jump_right_knee)
 	
 	# Draw Left Leg (Front)
-	# Target angle: Positive (Right/Back) e.g. 10 degrees per user request
-	_draw_segment_leg(Vector2(-leg_separation / 2, body_bottom_y), left_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color, deg_to_rad(14))
+	# Target angle: Positive (Right/Back) e.g. 14 degrees per user request
+	_draw_segment_leg(Vector2(-leg_separation / 2, body_bottom_y), left_phase, thigh_length, calf_length, leg_thickness, foot_length, foot_height, pants_color, deg_to_rad(14), jump_left_thigh, jump_left_knee)
 
 	
 	# Draw arm (existing code)
@@ -207,7 +233,7 @@ func _get_bezier_point(t: float, p0: Vector2, p1: Vector2, p2: Vector2) -> Vecto
 
 # Helper function to draw rotated rectangle
 # Rotates from the top center (hip pivot point)
-func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_len: float, width: float, _foot_len: float, _foot_h: float, color: Color, target_death_angle: float = 0.0) -> void:
+func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_len: float, width: float, _foot_len: float, _foot_h: float, color: Color, target_death_angle: float = 0.0, target_jump_thigh: float = 0.0, target_jump_knee: float = 0.0) -> void:
 	var swing_angle = sin(phase) * max_leg_swing_angle
 	
 	# Knee Logic:
@@ -231,9 +257,11 @@ func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_le
 		swing_angle = lerp_angle(swing_angle, target_death_angle, death_spread)
 		knee_bend_angle = lerp(knee_bend_angle, 0.1, death_spread * 1.5) # Straighten legs on death
 		knee_bend_angle = max(0.0, knee_bend_angle) # Ensure non-negative
-
-		
-	# Apply animation
+	elif jump_blend > 0.0:
+		# Interpolate to jump pose if airborne
+		swing_angle = lerp_angle(swing_angle, target_jump_thigh, jump_blend)
+		knee_bend_angle = lerp(knee_bend_angle, target_jump_knee, jump_blend)
+	
 	var thigh_angle = swing_angle
 	var calf_angle = thigh_angle + knee_bend_angle # Calf adds rotation relative to thigh
 	
