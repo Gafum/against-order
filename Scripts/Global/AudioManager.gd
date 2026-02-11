@@ -8,6 +8,7 @@ func _ready():
 	_setup_music_player()
 	play_music()
 	print("=== AudioManager: Initialization complete ===")
+	set_volume(0.5)
 
 func _setup_music_player():
 	music_player = AudioStreamPlayer.new()
