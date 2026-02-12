@@ -19,12 +19,25 @@ func _ready() -> void:
 	add_to_group("Player")
 	default_hand_scale = hands_sprite.scale
 	current_reload_time = reload_time # Start with cooldown
+	
+	# Setup sound effects
+	jump_sound = AudioStreamPlayer.new()
+	jump_sound.stream = load("res://assets/Musik/Event/Motion/Jump/jump.mp3")
+	add_child(jump_sound)
+	
+	shoot_sound = AudioStreamPlayer.new()
+	shoot_sound.stream = load("res://assets/Musik/Event/Shooting/simple_shoot.wav")
+	add_child(shoot_sound)
 
 
 const JUMP_VELOCITY = -1200.0
 
 var bullet_scene = preload("res://Scripts/Environment/Objects/MovableObjects/Bullet/bullet.tscn")
 var dust_scene = preload("res://Scripts/Effects/Dust/dust.tscn")
+
+# Sound effects
+var jump_sound: AudioStreamPlayer
+var shoot_sound: AudioStreamPlayer
 
 @onready var bullet_marker: Marker2D = $AnimatedSprite2D/Hands/BulletMarker
 @onready var muzzle_flash: CPUParticles2D = %MuzzleFlash
@@ -81,6 +94,8 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor_only():
 		if Input.is_action_pressed("ui_accept"):
 			velocity.y = JUMP_VELOCITY
+			if jump_sound:
+				jump_sound.play()
 
 	move_and_slide()
 
@@ -135,6 +150,7 @@ func shoot():
 	hands_sprite.scale.x = 0.87
 
 	get_tree().current_scene.add_child(bullet)
+
 
 	# Add muzzle flash effect with a tiny delay
 	await get_tree().create_timer(0.03).timeout

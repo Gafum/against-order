@@ -4,10 +4,8 @@ var music_player: AudioStreamPlayer
 const BACKGROUND_MUSIC_PATH = "res://assets/Musik/Background/game-background.wav"
 
 func _ready():
-	print("=== AudioManager: Initializing ===")
 	_setup_music_player()
 	play_music()
-	print("=== AudioManager: Initialization complete ===")
 	set_volume(0.5)
 
 func _setup_music_player():
@@ -18,23 +16,19 @@ func _setup_music_player():
 	
 	var music_stream = load(BACKGROUND_MUSIC_PATH)
 	if music_stream:
-		print("AudioManager: Successfully loaded background music")
 		music_player.stream = music_stream
 		
 		# Set loop mode based on stream type to ensure it loops
 		if music_stream is AudioStreamWAV:
 			music_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-			print("AudioManager: Set WAV loop mode to LOOP_FORWARD")
 		elif music_stream is AudioStreamOggVorbis:
 			music_stream.loop = true
-			print("AudioManager: Set OGG loop to true")
 	else:
 		push_error("Failed to load background music from: " + BACKGROUND_MUSIC_PATH)
 
 func play_music():
 	if music_player and not music_player.playing:
 		music_player.play()
-		print("AudioManager: Started playing background music")
 	elif music_player and music_player.playing:
 		print("AudioManager: Music is already playing")
 
