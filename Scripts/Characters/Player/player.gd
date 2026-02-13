@@ -28,6 +28,7 @@ func _ready() -> void:
 	shoot_sound = AudioStreamPlayer.new()
 	shoot_sound.stream = load("res://assets/Musik/Event/Shooting/simple_shoot.wav")
 	add_child(shoot_sound)
+	shoot_sound.volume_db = -8
 
 
 const JUMP_VELOCITY = -1200.0
@@ -150,7 +151,10 @@ func shoot():
 	hands_sprite.scale.x = 0.87
 
 	get_tree().current_scene.add_child(bullet)
-
+	
+	# Play shoot sound
+	if shoot_sound:
+		shoot_sound.play()
 
 	# Add muzzle flash effect with a tiny delay
 	await get_tree().create_timer(0.03).timeout

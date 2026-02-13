@@ -6,7 +6,7 @@ const BACKGROUND_MUSIC_PATH = "res://assets/Musik/Background/game-background.wav
 func _ready():
 	_setup_music_player()
 	play_music()
-	set_volume(0.5)
+	set_volume(0.75)
 
 func _setup_music_player():
 	music_player = AudioStreamPlayer.new()
