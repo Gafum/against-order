@@ -22,7 +22,7 @@ func _ready() -> void:
 	
 	# Setup sound effects
 	jump_sound = AudioStreamPlayer.new()
-	jump_sound.stream = load("res://assets/Musik/Event/Motion/Jump/jump.mp3")
+	jump_sound.stream = load("res://assets/Musik/Event/Motion/Jump/jump.wav")
 	add_child(jump_sound)
 	
 	shoot_sound = AudioStreamPlayer.new()

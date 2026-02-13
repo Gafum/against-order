@@ -1,7 +1,7 @@
 extends Node
 
 var music_player: AudioStreamPlayer
-const BACKGROUND_MUSIC_PATH = "res://assets/Musik/Background/game-background.wav"
+const BACKGROUND_MUSIC_PATH = "res://assets/Musik/Background/game-background.mp3"
 
 func _ready():
 	_setup_music_player()
@@ -22,6 +22,8 @@ func _setup_music_player():
 		if music_stream is AudioStreamWAV:
 			music_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		elif music_stream is AudioStreamOggVorbis:
+			music_stream.loop = true
+		elif music_stream is AudioStreamMP3:
 			music_stream.loop = true
 	else:
 		push_error("Failed to load background music from: " + BACKGROUND_MUSIC_PATH)
