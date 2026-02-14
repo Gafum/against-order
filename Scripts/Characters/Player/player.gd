@@ -24,11 +24,22 @@ func _ready() -> void:
 	jump_sound = AudioStreamPlayer.new()
 	jump_sound.stream = load("res://assets/Musik/Event/Motion/Jump/jump.wav")
 	add_child(jump_sound)
+	jump_sound.volume_db = -20
 	
 	shoot_sound = AudioStreamPlayer.new()
 	shoot_sound.stream = load("res://assets/Musik/Event/Shooting/simple_shoot.wav")
 	add_child(shoot_sound)
-	shoot_sound.volume_db = -8
+	shoot_sound.volume_db = -27
+	
+	# Setup footstep sound with procedural generator
+	footstep_sound = AudioStreamPlayer.new()
+	var generator = AudioStreamGenerator.new()
+	generator.mix_rate = 22050
+	generator.buffer_length = 0.13
+	footstep_sound.stream = generator
+	footstep_sound.volume_db = -10.0
+	add_child(footstep_sound)
+	footstep_sound.play()
 
 
 const JUMP_VELOCITY = -1200.0
@@ -39,6 +50,8 @@ var dust_scene = preload("res://Scripts/Effects/Dust/dust.tscn")
 # Sound effects
 var jump_sound: AudioStreamPlayer
 var shoot_sound: AudioStreamPlayer
+var footstep_sound: AudioStreamPlayer
+var last_step_phase: float = 0.0
 
 @onready var bullet_marker: Marker2D = $AnimatedSprite2D/Hands/BulletMarker
 @onready var muzzle_flash: CPUParticles2D = %MuzzleFlash
@@ -78,7 +91,14 @@ func _physics_process(delta: float) -> void:
 	# Update leg animation based on movement
 	if abs(velocity.x) > 10 and is_on_floor():
 		# Sync animation speed with movement velocity more directly
+		var prev_leg_time = leg_animation_time
 		leg_animation_time += delta * leg_swing_speed * (abs(velocity.x) / move_speed)
+		
+		# Play footstep sound on each step (when phase crosses PI)
+		var current_step = floor(leg_animation_time / PI)
+		var last_step = floor(prev_leg_time / PI)
+		if current_step != last_step and footstep_sound:
+			_play_footstep()
 	else:
 		# Reset legs to neutral position smoothly or instantly when stopped
 		pass # Keep current phase for blending if needed, or reset? Let's just stop incrementing.
@@ -332,6 +352,23 @@ func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_le
 		
 	# Reset transform
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _play_footstep():
+	# Generate a short low-frequency pulse for footstep
+	if footstep_sound and footstep_sound.stream is AudioStreamGenerator:
+		var playback = footstep_sound.get_stream_playback() as AudioStreamGeneratorPlayback
+		if playback:
+			var frequency = 80.0 # Low frequency for footstep
+			var duration = 0.05 # Very short pulse
+			var sample_rate = 22050.0
+			var samples = int(duration * sample_rate)
+			
+			for i in range(samples):
+				var t = float(i) / sample_rate
+				var envelope = 1.0 - (float(i) / float(samples)) # Fade out
+				var value = sin(t * frequency * TAU) * envelope * 0.3 # Low amplitude
+				playback.push_frame(Vector2(value, value))
 
 
 func spawn_dust():
