@@ -26,10 +26,15 @@ func _ready() -> void:
 	add_child(jump_sound)
 	jump_sound.volume_db = -20
 	
+	# Setup shoot sound with procedural generator (reusing old footstep thump style)
 	shoot_sound = AudioStreamPlayer.new()
-	shoot_sound.stream = load("res://assets/Musik/Event/Shooting/simple_shoot.wav")
+	var shoot_generator = AudioStreamGenerator.new()
+	shoot_generator.mix_rate = 22050
+	shoot_generator.buffer_length = 0.1
+	shoot_sound.stream = shoot_generator
+	shoot_sound.volume_db = -8.0
 	add_child(shoot_sound)
-	shoot_sound.volume_db = -27
+	shoot_sound.play()
 	
 	# Setup footstep sound with procedural generator
 	footstep_sound = AudioStreamPlayer.new()
@@ -173,8 +178,7 @@ func shoot():
 	get_tree().current_scene.add_child(bullet)
 	
 	# Play shoot sound
-	if shoot_sound:
-		shoot_sound.play()
+	_play_shoot_sound()
 
 	# Add muzzle flash effect with a tiny delay
 	await get_tree().create_timer(0.03).timeout
@@ -354,21 +358,76 @@ func _draw_segment_leg(hip_pos: Vector2, phase: float, thigh_len: float, calf_le
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
+func _play_shoot_sound():
+	if shoot_sound and shoot_sound.stream is AudioStreamGenerator:
+		var playback = shoot_sound.get_stream_playback() as AudioStreamGeneratorPlayback
+		if not playback:
+			return
+
+		var sample_rate = 22050.0
+		var pitch_variation = randf_range(0.9, 1.1)
+		
+		# Louder, punchier version of the old footstep thump
+		var freq = 80.0 * pitch_variation
+		var duration = 0.1
+		var samples = int(duration * sample_rate)
+		
+		for i in range(samples):
+			var t = float(i) / sample_rate
+			var env = exp(-t * 20.0) # Slower decay than footstep for more "body"
+			var value = sin(t * freq * TAU) * env * 0.8
+			
+			# Add a bit of noise for "gunpowder" kick
+			if i < 400: # First ~20ms
+				value += randf_range(-0.5, 0.5) * exp(-float(i) / 200.0)
+				
+			playback.push_frame(Vector2(value, value))
+
+
 func _play_footstep():
-	# Generate a short low-frequency pulse for footstep
 	if footstep_sound and footstep_sound.stream is AudioStreamGenerator:
 		var playback = footstep_sound.get_stream_playback() as AudioStreamGeneratorPlayback
-		if playback:
-			var frequency = 80.0 # Low frequency for footstep
-			var duration = 0.05 # Very short pulse
-			var sample_rate = 22050.0
-			var samples = int(duration * sample_rate)
+		if not playback:
+			return
+
+		var sample_rate = 22050.0
+		var pitch_variation = randf_range(0.9, 1.1)
+		var volume_variation = randf_range(0.8, 1.0)
+
+		# ASPHALT RUNNING SOUND
+		# Focus on high-frequency "hiss/scrape" (shoe on pavement)
+		# Reduced low-end thump significantly
+		
+		# -- Layer 1: Shoe scrape (Noise) -- 
+		var scrape_dur = 0.04
+		var scrape_samples = int(scrape_dur * sample_rate)
+		
+		# -- Layer 2: Subtle heavy impact (Low thud) --
+		var thud_dur = 0.05
+		var thud_samples = int(thud_dur * sample_rate)
+
+		var total = max(scrape_samples, thud_samples)
+		
+		for i in range(total):
+			var value = 0.0
 			
-			for i in range(samples):
+			# Scrape (High frequency noise)
+			if i < scrape_samples:
 				var t = float(i) / sample_rate
-				var envelope = 1.0 - (float(i) / float(samples)) # Fade out
-				var value = sin(t * frequency * TAU) * envelope * 0.3 # Low amplitude
-				playback.push_frame(Vector2(value, value))
+				var env = exp(-t * 60.0)
+				var noise = randf_range(-0.6, 0.6)
+				# Simple high-pass filter approximation by subtracting previous sample (differencing)
+				# But for simplicity, just noise is often enough for "grit"
+				value += noise * env * 0.4
+			
+			# Thud (Body weight - very subtle now)
+			if i < thud_samples:
+				var t = float(i) / sample_rate
+				var env = exp(-t * 40.0)
+				value += sin(t * 70.0 * TAU) * env * 0.2 # Lower amplitude
+
+			value *= volume_variation
+			playback.push_frame(Vector2(value, value))
 
 
 func spawn_dust():
